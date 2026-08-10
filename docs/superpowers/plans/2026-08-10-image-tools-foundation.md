@@ -2356,9 +2356,18 @@ export async function encodeBlob(
  * (or Image fallback where createImageBitmap is unavailable).
  */
 
-import { newImageCanvas } from './encoders';
+import { newImageCanvas } from './encoders.ts';
 
-async function createBitmap(source: Blob): Promise<ImageBitmap> {
+type BitmapSource = ImageBitmap | HTMLImageElement;
+
+function dimensionsOf(source: BitmapSource): { width: number; height: number } {
+  if ('naturalWidth' in source) {
+    return { width: source.naturalWidth, height: source.naturalHeight };
+  }
+  return { width: source.width, height: source.height };
+}
+
+async function createBitmap(source: Blob): Promise<BitmapSource> {
   if (typeof createImageBitmap === 'function') {
     return createImageBitmap(source);
   }
@@ -2377,7 +2386,8 @@ async function createBitmap(source: Blob): Promise<ImageBitmap> {
 /** Read any supported image Blob into a drawable canvas (preserves pixels). */
 export async function toCanvas(source: Blob): Promise<HTMLCanvasElement> {
   const bmp = await createBitmap(source);
-  const canvas = newImageCanvas(bmp.width, bmp.height);
+  const { width, height } = dimensionsOf(bmp);
+  const canvas = newImageCanvas(width, height);
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('تعذّر إنشاء سياق الرسم.');
   ctx.drawImage(bmp, 0, 0);
@@ -2391,8 +2401,8 @@ export async function readImage(source: Blob): Promise<{ width: number; height: 
 
 export async function readImageDimensions(file: Blob): Promise<{ width: number; height: number }> {
   const bmp = await createBitmap(file);
-  const { width, height } = bmp;
-  if (typeof bmp.close === 'function') bmp.close();
+  const { width, height } = dimensionsOf(bmp);
+  if (typeof (bmp as ImageBitmap).close === 'function') (bmp as ImageBitmap).close();
   return { width, height };
 }
 ```
@@ -2426,8 +2436,8 @@ export function pickCodec(format: string, _wantsTransparency: boolean): Codec {
   }
 }
 
-export { toCanvas, readImage, readImageDimensions } from './decoders';
-export { encodeBlob, newImageCanvas, canUseToBlob, encodePng, encodeLossy } from './encoders';
+export { toCanvas, readImage, readImageDimensions } from './decoders.ts';
+export { encodeBlob, newImageCanvas, canUseToBlob, encodePng, encodeLossy } from './encoders.ts';
 ```
 
 > Note: `_wantsTransparency` is kept in the signature for future lossless-WebP work; P1 treats PNG as the only lossless target.
