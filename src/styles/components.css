@@ -1,1 +1,264 @@
-/* Image-tools component styles are added in Task 8. */
+/* Shared UI components: header, nav, footer, buttons, cards, forms. */
+
+/* ---- Header ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--header-height);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: 100%;
+}
+
+.site-logo {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.site-logo:hover {
+  text-decoration: none;
+}
+
+.site-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+}
+
+.site-nav a {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.site-nav a:hover {
+  background: var(--color-bg-alt);
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.site-nav a[aria-current='page'] {
+  color: var(--color-accent);
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  padding-block: var(--space-12) var(--space-8);
+  margin-top: var(--space-16);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-8);
+}
+
+.site-footer h2 {
+  font-size: var(--font-size-sm);
+  text-transform: none;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.site-footer a {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.site-footer a:hover {
+  color: var(--color-accent);
+}
+
+.site-footer__bottom {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---- Sections ---- */
+.section {
+  padding-block: var(--space-12);
+}
+
+.section--alt {
+  background: var(--color-bg-alt);
+}
+
+/* ---- Page header ---- */
+.page-header {
+  text-align: center;
+  padding-block: var(--space-12) var(--space-8);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-3);
+}
+
+.page-header p {
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn--secondary {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  border-color: var(--color-primary);
+}
+
+.btn--accent {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn--accent:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+/* ---- Cards ---- */
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ---- Tags ---- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+/* ---- Form fields ---- */
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field label,
+.field .field__label {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.field input[type='text'],
+.field input[type='number'],
+.field input[type='file'],
+.field select,
+.field textarea {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.field .field__hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* ---- Legal prose ---- */
+.legal-prose {
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+.legal-prose h2 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-xl);
+}
+
+.legal-prose p,
+.legal-prose ul,
+.legal-prose ol {
+  margin-bottom: var(--space-4);
+}
+
+.legal-prose .legal-prose__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  border-inline-start: 3px solid var(--color-border);
+  padding-inline-start: var(--space-4);
+  margin-bottom: var(--space-8);
+}
