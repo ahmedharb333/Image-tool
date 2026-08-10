@@ -1,0 +1,86 @@
+---
+import { ANALYTICS } from '../config/analytics';
+import { ADS } from '../config/ads';
+import { FEATURES } from '../config/features';
+import { SITE } from '../config/site';
+import { absoluteUrl, buildTitle, metaRobots, websiteJsonLd } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schemaJsonLd?: object[];
+  lastReviewed?: string;
+}
+
+const {
+  title,
+  description,
+  path,
+  ogType = 'website',
+  noindex = false,
+  schemaJsonLd = [],
+  lastReviewed,
+} = Astro.props;
+
+const fullTitle = buildTitle(title);
+const canonical = absoluteUrl(path);
+const robots = metaRobots(noindex);
+const schemas = [...schemaJsonLd, websiteJsonLd()];
+const showAdsHead = ADS.enabled && !ADS.testMode && ADS.publisherId !== '' && ADS.headCode !== '';
+const showAnalyticsHead = ANALYTICS.enabled && ANALYTICS.ga4.enabled && ANALYTICS.ga4.measurementId !== '';
+const showConsent = FEATURES.consent.enabled;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonical} />
+
+{lastReviewed && <meta name="dateModified" content={lastReviewed} />}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="ar_AR" />
+<meta property="og:site_name" content={SITE.brandName.ar} />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="theme-color" content="#12305C" />
+
+{showConsent && <script is:inline type="module" src="/scripts/consent.mjs" data-mode="head"></script>}
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+))}
+
+{showAnalyticsHead && ANALYTICS.gscVerification !== '' && (
+  <meta name="google-site-verification" content={ANALYTICS.gscVerification} />
+)}
+
+{showAdsHead && <Fragment set:html={ADS.headCode} />}
+
+{showAnalyticsHead && (
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id={ANALYTICS.ga4.measurementId}"></script>
+)}
+
+{showAnalyticsHead && (
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{ANALYTICS.ga4.measurementId}', { 'anonymize_ip': true });
+  </script>
+)}

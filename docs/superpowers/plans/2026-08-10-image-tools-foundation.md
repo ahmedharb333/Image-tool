@@ -1877,7 +1877,9 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
 </html>
 ```
 
-- [ ] **Step 3: Remove the scaffold default layout if present** (the manual scaffold in Task 1 never creates `src/layouts/Layout.astro`; this is a tolerant cleanup)
+- [ ] **Step 3: Fix the Task 1 stub page + remove the scaffold default layout if present**
+
+The new BaseLayout requires a `path` prop, but the Task 1 stub `src/pages/index.astro` passes only `title`/`description` — update its opening tag to add `path="/"` (one line; keeps `astro check` green). Then tolerantly remove the scaffold default layout (the manual scaffold never creates `src/layouts/Layout.astro`):
 
 ```powershell
 if (Test-Path -LiteralPath "src/layouts/Layout.astro") {

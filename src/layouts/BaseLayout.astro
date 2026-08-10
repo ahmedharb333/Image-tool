@@ -1,21 +1,113 @@
 ---
+import Head from '../components/Head.astro';
+import { NAV } from '../config/nav';
+import { LOGO, SITE } from '../config/site';
+import '../styles/fonts.css';
+import '../styles/base.css';
+
+// NOTE: AdSlot and ConsentToggle are wired into the footer in Tasks 6 and 8
+// (they don't exist yet at this task's verify gate).
+
 interface Props {
   title: string;
   description: string;
+  path: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schemaJsonLd?: object[];
+  lastReviewed?: string;
+  isHome?: boolean;
 }
-const { title, description } = Astro.props;
+
+const {
+  title,
+  description,
+  path,
+  ogType,
+  noindex,
+  schemaJsonLd,
+  lastReviewed,
+  isHome = false,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const active = (href: string) => (currentPath === href ? 'page' : undefined);
 ---
+
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar" data-theme="light">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Head
+      title={title}
+      description={description}
+      path={path}
+      ogType={ogType}
+      noindex={noindex}
+      schemaJsonLd={schemaJsonLd}
+      lastReviewed={lastReviewed}
+    />
+    {/* Fonts load via the imported fonts.css (12 subset files in /fonts/);
+        no preloads or inline @font-face here — the browser fetches only the
+        subsets it needs. */}
   </head>
   <body>
-    <main id="main">
+    <a class="skip-link" href="#main-content">تخطَّ إلى المحتوى الرئيسي</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="site-logo" href="/" aria-label={LOGO.text.ar}>{LOGO.text.ar}</a>
+        <nav class="site-nav" aria-label="التنقل الرئيسي">
+          <ul>
+            {
+              NAV.main.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={active(item.href)}>{item.label.ar}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
       <slot />
     </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__grid">
+          <div>
+            <h2>{LOGO.lockup.ar}</h2>
+            <p>{SITE.tagline.ar}</p>
+          </div>
+          <div>
+            <h2>روابط سريعة</h2>
+            <ul>
+              {
+                NAV.main.map((item) => (
+                  <li><a href={item.href}>{item.label.ar}</a></li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h2>الصفحات القانونية</h2>
+            <ul>
+              {
+                NAV.footer.map((item) => (
+                  <li><a href={item.href}>{item.label.ar}</a></li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+        <div class="site-footer__bottom">
+          <p>
+            © {new Date().getFullYear()} {SITE.brandName.ar} — جميع الحقوق محفوظة. تتم معالجة جميع الصور محليًا داخل متصفحك.
+          </p>
+          {/* AdSlot (Task 6) and ConsentToggle (Task 8) mount here */}
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
