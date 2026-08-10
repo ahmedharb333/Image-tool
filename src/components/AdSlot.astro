@@ -1,0 +1,31 @@
+---
+import { ADS } from '../config/ads';
+
+interface Props {
+  location: 'belowIntro' | 'afterResult' | 'inContent' | 'sidebar' | 'betweenGuideSections';
+  className?: string;
+}
+
+const { location, className } = Astro.props;
+
+// Ads are globally disabled until real publisher IDs exist.
+// When enabled, this renders a real <ins> slot wired to the configured ID.
+const show = ADS.enabled && !ADS.testMode && ADS.publisherId !== '';
+const slotId = ADS.slots[location];
+---
+
+{show && slotId !== '' && (
+  <div class={className}>
+    <ins
+      class="adsbygoogle"
+      style="display: block"
+      data-ad-client={ADS.publisherId}
+      data-ad-slot={slotId}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+    <script is:inline>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+)}

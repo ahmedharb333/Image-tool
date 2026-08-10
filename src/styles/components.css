@@ -262,3 +262,128 @@
   padding-inline-start: var(--space-4);
   margin-bottom: var(--space-8);
 }
+
+/* ---- Consent toggle ---- */
+.consent-toggle {
+  display: inline-flex;
+  align-items: center;
+  width: 48px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.consent-toggle__thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  position: absolute;
+  inset-inline-start: 2px;
+  transition: inset-inline-start 0.2s ease;
+}
+
+.consent-toggle[data-consent-state='granted'] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.consent-toggle[data-consent-state='granted'] .consent-toggle__thumb {
+  inset-inline-start: calc(100% - 24px);
+}
+
+/* ---- Status messages ---- */
+.status {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-size: var(--font-size-sm);
+}
+
+.status__title {
+  font-weight: 700;
+}
+
+.status--error {
+  background: var(--color-error-bg);
+  border-color: #fecdca;
+  color: var(--color-error);
+}
+
+.status--success {
+  background: var(--color-success-bg);
+  border-color: #abefc6;
+  color: var(--color-success);
+}
+
+.status--warning {
+  background: var(--color-warning-bg);
+  border-color: #fedf89;
+  color: var(--color-warning);
+}
+
+.status--info {
+  background: var(--color-bg-alt);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* ---- Breadcrumbs ---- */
+.breadcrumbs {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin-block: var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.breadcrumbs li + li::before {
+  content: '/';
+  color: var(--color-text-muted);
+}
+
+.breadcrumbs a {
+  color: var(--color-text-muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-accent);
+}
+
+.breadcrumbs [aria-current='page'] {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ---- Tool header ---- */
+.tool-header {
+  margin-block-end: var(--space-8);
+}
+
+.tool-header h1 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.tool-header p {
+  color: var(--color-text-muted);
+  max-width: 640px;
+}
+
+.tool-ads {
+  margin-block-start: var(--space-8);
+}

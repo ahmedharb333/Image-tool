@@ -1,0 +1,21 @@
+---
+interface Props {
+  variant: 'error' | 'success' | 'warning' | 'info';
+  title?: string;
+  className?: string;
+}
+
+const { variant, title, className } = Astro.props;
+const role = variant === 'error' ? 'alert' : 'status';
+const labels: Record<Props['variant'], string> = {
+  error: 'خطأ',
+  success: 'تم بنجاح',
+  warning: 'تنبيه',
+  info: 'ملاحظة',
+};
+---
+
+<div class={`status status--${variant} ${className ?? ''}`} role={role}>
+  {title && <strong class="status__title">{title}</strong>}
+  <slot />
+</div>

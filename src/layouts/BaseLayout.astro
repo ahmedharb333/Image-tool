@@ -1,12 +1,10 @@
 ---
 import Head from '../components/Head.astro';
+import AdSlot from '../components/AdSlot.astro';
 import { NAV } from '../config/nav';
 import { LOGO, SITE } from '../config/site';
 import '../styles/fonts.css';
 import '../styles/base.css';
-
-// NOTE: AdSlot and ConsentToggle are wired into the footer in Tasks 6 and 8
-// (they don't exist yet at this task's verify gate).
 
 interface Props {
   title: string;
@@ -105,7 +103,7 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
           <p>
             © {new Date().getFullYear()} {SITE.brandName.ar} — جميع الحقوق محفوظة. تتم معالجة جميع الصور محليًا داخل متصفحك.
           </p>
-          {/* AdSlot (Task 6) and ConsentToggle (Task 8) mount here */}
+          <AdSlot location="sidebar" />
         </div>
       </div>
     </footer>

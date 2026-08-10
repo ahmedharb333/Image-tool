@@ -1914,7 +1914,7 @@ git commit -m "feat: add head meta helpers and base site layout"
 
 **Interfaces:**
 - `AdSlot` props: `{ location: 'belowIntro' | 'afterResult' | 'inContent' | 'sidebar' | 'betweenGuideSections'; className?: string }`. Renders nothing unless ADS.enabled.
-- `ConsentToggle`: self-contained; renders a toggle bound to `window.calckit?.consent` (Task 8). Ships with `data-consent-toggle` + `data-consent-state`.
+- `ConsentToggle`: self-contained; renders a toggle bound to `window.imageTools?.consent` (Task 8). Ships with `data-consent-toggle` + `data-consent-state`.
 - `ToolShell` props: `{ tool: ToolEntry; accent?: string }`. Renders breadcrumbs, H1, description, children, `afterResult` ad slot.
 - `StatusMessage` props: `{ variant: 'error' | 'success' | 'warning' | 'info'; title?: string }`. Renders `role="status"`/`role="alert"` container.
 - Consumed by: all tool pages (Task 11), all static pages (Task 12).
@@ -2021,7 +2021,7 @@ const labels = {
 ```astro
 ---
 import type { ToolEntry } from '../config/tools';
-import { AdSlot } from './AdSlot';
+import AdSlot from './AdSlot.astro';
 
 interface Props {
   tool: ToolEntry;
@@ -2192,7 +2192,7 @@ const labels: Record<Props['variant'], string> = {
 - [ ] **Step 6: Wire AdSlot into the BaseLayout footer**
 
 In `src/layouts/BaseLayout.astro`:
-1. Add to the frontmatter imports: `import { AdSlot } from '../components/AdSlot';`
+1. Add to the frontmatter imports: `import AdSlot from '../components/AdSlot.astro';`
 2. Inside `.site-footer__bottom`, after the copyright `<p>`, mount:
 
 ```astro
@@ -3779,7 +3779,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { GUIDES } from '../../content/guides';
 import { localizedPath } from '../../lib/i18n';
 import { breadcrumbJsonLd, faqJsonLd } from '../../lib/seo';
-import { AdSlot } from '../../components/AdSlot';
+import AdSlot from '../../components/AdSlot.astro';
 import { TOOLS } from '../../config/tools';
 
 const guide = GUIDES.find((g) => g.slug === 'compress-image')!;
@@ -4106,7 +4106,7 @@ const categories = [
 </div>
 ```
 
-(Import `ConsentToggle` in the layout frontmatter.)
+(Import `ConsentToggle` in the layout frontmatter: `import ConsentToggle from '../components/ConsentToggle.astro';`.)
 
 - [ ] **Step 5: Manual smoke check**
 

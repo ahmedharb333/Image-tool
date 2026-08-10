@@ -1,0 +1,19 @@
+---
+// Consent toggle — inert until the consent module (Task 8) attaches.
+// Renders in two states via [data-consent-state], styled by components.css.
+const labels = {
+  on: 'الموافقة على ملفات تعريف الارتباط مفعّلة',
+  off: 'الموافقة على ملفات تعريف الارتباط معطّلة',
+};
+---
+
+<button
+  type="button"
+  class="consent-toggle"
+  data-consent-toggle
+  data-consent-state="unknown"
+  aria-pressed="false"
+>
+  <span class="consent-toggle__thumb" aria-hidden="true"></span>
+  <span class="visually-hidden" data-consent-label></span>
+</button>
