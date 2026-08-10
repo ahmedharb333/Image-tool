@@ -827,7 +827,7 @@ export function localizedPath(locale: Locale, path: string): string {
 - [ ] **Step 6: Create `src/lib/seo.ts`**
 
 ```ts
-import { SITE } from '../config/site';
+import { SITE } from '../config/site.ts';
 
 export interface SeoMeta {
   title: string;
@@ -942,7 +942,7 @@ export function detectImageMime(buf: ArrayBuffer): string | null {
   const sig = readSignature(buf);
   if (sig.startsWith('ffd8ff')) return 'image/jpeg';
   if (sig.startsWith('89504e47')) return 'image/png';
-  if (sig.startsWith('52494646') && sig.length >= 12 && sig.slice(8, 12) === '57454250') return 'image/webp';
+  if (sig.startsWith('52494646') && sig.length >= 24 && sig.slice(16, 24) === '57454250') return 'image/webp';
   if (sig.startsWith('474946')) return 'image/gif';
   return null;
 }
@@ -951,9 +951,9 @@ export function mimeToExtension(mime: string): string {
   return MIME_TO_EXT[mime] ?? 'bin';
 }
 
-/** Strip path separators, control chars and trim; fall back to 'image'. */
+/** Strip path separators, control chars, leading dots; trim; fall back to 'image'. */
 export function sanitizeFilename(name: string): string {
-  const cleaned = name.replace(/[\\/:*?"<>|\x00-\x1f]/g, '').trim();
+  const cleaned = name.replace(/[\\/:*?"<>|\x00-\x1f]/g, '').trim().replace(/^\.+/, '');
   return cleaned === '' || cleaned === '.' || cleaned === '..' ? 'image' : cleaned;
 }
 
