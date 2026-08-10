@@ -77,10 +77,10 @@ const showConsent = FEATURES.consent.enabled;
 )}
 
 {showAnalyticsHead && (
-  <script is:inline>
+  <script is:inline data-measurement-id={ANALYTICS.ga4.measurementId}>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '{ANALYTICS.ga4.measurementId}', { 'anonymize_ip': true });
+    gtag('config', document.currentScript.dataset.measurementId, { 'anonymize_ip': true });
   </script>
 )}
