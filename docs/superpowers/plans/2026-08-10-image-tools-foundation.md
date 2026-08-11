@@ -2521,12 +2521,18 @@ git commit -m "feat: add image encoders, decoders and codec selection"
     set(read() === 'granted' ? 'denied' : 'granted');
   }
 
+  var LABEL_ON = 'الموافقة على ملفات تعريف الارتباط مفعّلة';
+  var LABEL_OFF = 'الموافقة على ملفات تعريف الارتباط معطّلة';
+
   function updateDom() {
     var state = read();
     document.querySelectorAll('[data-consent-toggle]').forEach(function (btn) {
       var on = state === 'granted';
       btn.setAttribute('data-consent-state', state || 'unknown');
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-consent-label]').forEach(function (el) {
+      el.textContent = state === 'granted' ? LABEL_ON : LABEL_OFF;
     });
     document.querySelectorAll('[data-consent-banner]').forEach(function (banner) {
       var debug = banner.hasAttribute('data-consent-debug');

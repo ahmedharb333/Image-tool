@@ -1,0 +1,18 @@
+---
+interface Props {
+  debug?: boolean;
+}
+
+const { debug = false } = Astro.props;
+---
+
+<div class="consent-banner" data-consent-banner data-consent-debug={debug ? 'true' : undefined} role="dialog" aria-label="الموافقة على ملفات تعريف الارتباط" hidden>
+  <p class="consent-banner__text">
+    نستخدم ملفات تعريف الارتباط لتحسين تجربتك وقياس أداء الموقع. الصور التي تعالجها لا تُرفع إلى أي خادم أبدًا.
+    <a href="/cookies/">اقرأ سياسة الكوكيز</a>
+  </p>
+  <div class="consent-banner__actions">
+    <button type="button" class="btn btn--primary btn--sm" data-consent-accept>موافقة</button>
+    <button type="button" class="btn btn--secondary btn--sm" data-consent-deny>رفض</button>
+  </div>
+</div>

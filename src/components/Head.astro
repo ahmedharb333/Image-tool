@@ -60,7 +60,7 @@ const showConsent = FEATURES.consent.enabled;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="theme-color" content="#12305C" />
 
-{showConsent && <script is:inline type="module" src="/scripts/consent.mjs" data-mode="head"></script>}
+{showConsent && <script is:inline src="/scripts/consent.mjs" defer></script>}
 
 {schemas.map((schema) => (
   <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
