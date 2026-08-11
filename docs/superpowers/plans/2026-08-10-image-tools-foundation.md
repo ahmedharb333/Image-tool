@@ -2634,6 +2634,12 @@ const { debug = false } = Astro.props;
   margin-inline: auto;
 }
 
+/* `display: flex` above would override the UA `[hidden]` rule, so restore it
+   explicitly — otherwise the banner never hides after accept/deny. */
+.consent-banner[hidden] {
+  display: none;
+}
+
 .consent-banner__text {
   font-size: var(--font-size-sm);
   flex: 1 1 60%;
