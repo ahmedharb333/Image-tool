@@ -2751,8 +2751,8 @@ export interface ToolApp {
 export function toolApp(root: HTMLElement, handlers: ToolHandlers): ToolApp {
   const form = root.querySelector('.tool-form') as HTMLFormElement | null;
   const result = root.querySelector('.tool-result');
-  const alerts = root.querySelector('[data-alerts]');
-  const status = root.querySelector('[data-status]');
+  const alerts = root.querySelector('[data-alerts]') as HTMLElement | null;
+  const status = root.querySelector('[data-status]') as HTMLElement | null;
   const uploadInput = root.querySelector<HTMLInputElement>('input[data-upload-input]');
 
   const payloadEl = root.querySelector('[data-tool-payload]');
@@ -2962,7 +2962,7 @@ const description = tool.description.ar;
     </ToolShell>
   </div>
   <script>
-    import '../lib/client/appInit';
+    import '../../lib/client/appInit';
   </script>
 </BaseLayout>
 ```
@@ -3684,7 +3684,7 @@ const schema = [
     </ToolShell>
   </div>
   <script>
-    import '../lib/client/appInit';
+    import '../../lib/client/appInit';
   </script>
 </BaseLayout>
 ```
