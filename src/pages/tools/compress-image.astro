@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShell from '../../components/ToolShell.astro';
+import { TOOLS } from '../../config/tools';
+import { localizedPath } from '../../lib/i18n';
+
+const tool = TOOLS.find((t) => t.slug === 'compress-image')!;
+const title = tool.title.ar;
+const description = tool.description.ar;
+---
+
+<BaseLayout title={title} description={description} path={localizedPath('ar', `/tools/${tool.slug}/`)}>
+  <div class="container">
+    <ToolShell tool={tool}>
+      <div class="tool-card" data-tool="compress-image">
+        <form class="tool-form">
+          <label class="field" data-field="file">
+            <span class="field__label">اختر صورة</span>
+            <input type="file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input />
+          </label>
+          <div class="tool-actions">
+            <button type="submit" class="btn btn--primary" data-action="process">ضغط الصورة</button>
+            <button type="button" class="btn btn--secondary" data-action="reset">إعادة تعيين</button>
+          </div>
+        </form>
+        <div data-alerts hidden></div>
+        <div class="tool-result" data-status></div>
+        <script type="application/json" data-tool-payload>{JSON.stringify({ tool: tool.slug, maxSize: 25 * 1024 * 1024 })}</script>
+      </div>
+    </ToolShell>
+  </div>
+  <script>
+    import '../../lib/client/appInit';
+  </script>
+</BaseLayout>

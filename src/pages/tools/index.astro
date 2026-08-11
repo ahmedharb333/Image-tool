@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { TOOLS } from '../../config/tools';
+import { localizedPath } from '../../lib/i18n';
+
+const title = 'الأدوات';
+const description = 'مجموعة أدوات لمعالجة الصور داخل متصفحك دون رفع أي ملف إلى خادم.';
+---
+
+<BaseLayout title={title} description={description} path={localizedPath('ar', '/tools/')}>
+  <section class="page-header">
+    <h1>{title}</h1>
+    <p>{description}</p>
+  </section>
+  <section class="section container">
+    <div class="card-grid">
+      {
+        TOOLS.filter((t) => t.active).map((tool) => (
+          <a class="card tool-card-link" href={localizedPath('ar', `/tools/${tool.slug}/`)}>
+            <h2>{tool.title.ar}</h2>
+            <p>{tool.description.ar}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

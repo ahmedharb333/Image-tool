@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config/site';
+
+const title = 'الصفحة غير موجودة';
+const description = 'الصفحة التي تبحث عنها غير موجودة أو نُقلت.';
+---
+
+<BaseLayout title={title} description={description} path="/404/" noindex>
+  <section class="page-header">
+    <h1>404</h1>
+    <p>{description}</p>
+    <p><a class="btn btn--primary" href="/">العودة إلى الرئيسية</a></p>
+  </section>
+</BaseLayout>
