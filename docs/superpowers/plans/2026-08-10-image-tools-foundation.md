@@ -3146,7 +3146,10 @@ export interface Size {
   height: number;
 }
 
-export interface CropBox extends Point, Size {}
+export interface CropBox extends Point {
+  w: number;
+  h: number;
+}
 
 export type OutputFormat = 'jpg' | 'png' | 'webp';
 
@@ -3164,7 +3167,7 @@ export interface ProcessResult {
 - [ ] **Step 4: Create `src/lib/processing/resize.ts`** (pure math)
 
 ```ts
-import type { Size } from './types';
+import type { Size } from './types.ts';
 
 /**
  * Pure dimension math. All values are integers >= 1.
@@ -3239,7 +3242,7 @@ export function clampTargetFileSize(opts: { width: number; height: number; min: 
 - [ ] **Step 5: Create `src/lib/processing/crop.ts`** (pure math)
 
 ```ts
-import type { CropBox } from './types';
+import type { CropBox } from './types.ts';
 
 export function rotationToAngle(degrees: number): number {
   const d = degrees % 360;
