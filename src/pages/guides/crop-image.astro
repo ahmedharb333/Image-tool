@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { GUIDES } from '../../content/guides';
+import { TOOLS } from '../../config/tools';
+import { localizedPath } from '../../lib/i18n';
+import { breadcrumbJsonLd, faqJsonLd } from '../../lib/seo';
+import AdSlot from '../../components/AdSlot.astro';
+
+const guide = GUIDES.find((g) => g.slug === 'crop-image')!;
+const path = localizedPath('ar', `/guides/${guide.slug}/`);
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'الأدلة', path: '/guides/' },
+    { name: guide.title.ar, path },
+  ]),
+  faqJsonLd(guide.faq.map((f) => ({ q: f.q.ar, a: f.a.ar }))),
+];
+const tool = TOOLS.find((t) => t.slug === guide.slug);
+---
+
+<BaseLayout title={guide.title.ar} description={guide.description.ar} path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <nav aria-label="مسار التنقل">
+      <ol class="breadcrumbs">
+        <li><a href="/">الرئيسية</a></li>
+        <li><a href="/guides/">الأدلة</a></li>
+        <li><span aria-current="page">{guide.title.ar}</span></li>
+      </ol>
+    </nav>
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>{guide.title.ar}</h1>
+        <p>{guide.description.ar}</p>
+        <p class="legal-prose__meta">آخر تحديث: {guide.lastUpdated}</p>
+      </header>
+
+      {guide.body.ar.map((para) => <p>{para}</p>)}
+
+      {tool && (
+        <p>
+          <a class="btn btn--accent" href={localizedPath('ar', `/tools/${guide.slug}/`)}>جرّب أداة {tool.title.ar}</a>
+        </p>
+      )}
+
+      <h2>أسئلة شائعة</h2>
+      {guide.faq.map((item) => (
+        <section>
+          <h3>{item.q.ar}</h3>
+          <p>{item.a.ar}</p>
+        </section>
+      ))}
+
+      <AdSlot location="betweenGuideSections" />
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ADS } from '../config/ads';
+import { LEGAL } from '../config/legal';
+import { localizedPath } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+const path = localizedPath('ar', '/advertising-disclosure/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'الإفصاح عن الإعلانات', path },
+  ]),
+];
+---
+
+<BaseLayout title="الإفصاح عن الإعلانات" description="إفصاح واضح عن سياسة الإعلانات في الموقع." path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>الإفصاح عن الإعلانات</h1>
+        <p>آخر تحديث: {LEGAL.lastUpdatedDefault}</p>
+      </header>
+
+      <h2>الوضع الحالي</h2>
+      <p>لا يعرض الموقع حاليًا أي إعلانات (الإعلانات معطّلة). لن تظهر أي إعلانات أو روابط ممولة حتى تُفعَّل الإعلانات بشكل صريح.</p>
+      <p>حالة الإعلانات: {ADS.enabled ? 'مفعّلة' : 'معطّلة'}.</p>
+
+      <h2>متى تُفعَّل</h2>
+      <p>إذا فُعِّلت الإعلانات في المستقبل، ستُحدَّث هذه الصفحة وتُذكر جهات العرض المستخدمة، وسيظل الإعلان مميزًا بوضوح عن المحتوى.</p>
+      <p class="legal-prose__meta">الناشر: سيُحدَّث اسم الناشر هنا.</p>
+    </article>
+  </div>
+</BaseLayout>

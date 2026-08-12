@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LEGAL } from '../config/legal';
+import { localizedPath } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+const path = localizedPath('ar', '/privacy/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'سياسة الخصوصية', path },
+  ]),
+];
+---
+
+<BaseLayout title="سياسة الخصوصية" description="كيف نتعامل مع صورك وبياناتك." path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>سياسة الخصوصية</h1>
+        <p>آخر تحديث: {LEGAL.lastUpdatedDefault}</p>
+      </header>
+
+      <h2>لا نرفع ولا نخزن صورك</h2>
+      <p>تُعالج جميع الصور بالكامل داخل متصفحك عبر واجهات Canvas. لا تُرسل ملفاتك إلى أي خادم ولا تُخزن في أي مكان، وتُزال من الذاكرة فور انتهاء المعالجة.</p>
+
+      <h2>التخزين المحلي</h2>
+      <p>نستخدم التخزين المحلي في متصفحك (localStorage) فقط لحفظ تفضيل الموافقة على ملفات تعريف الارتباط. لا نجمع أي بيانات شخصية.</p>
+
+      <h2>التحليلات والإعلانات</h2>
+      <p>هذا الموقع لا يستخدم حاليًا أدوات تحليل أو إعلانات طرف ثالث. إن تغيّر ذلك في المستقبل، سنحدّث هذه الصفحة ونطلب موافقتك عند الحاجة.</p>
+
+      <h2>ملفات تعريف الارتباط</h2>
+      <p>لا يستخدم الموقع ملفات تعريف الارتباط للتتبع. راجع صفحة <a href="/cookies/">سياسة الكوكيز</a> للتفاصيل.</p>
+
+      <h2>الناشر</h2>
+      <p>سيُحدَّث اسم الناشر هنا.</p>
+      <p class="legal-prose__meta">الجهة المسؤولة: سيُحدَّث الاسم القانوني هنا — النطاق القضائي: سيُحدَّد هنا.</p>
+    </article>
+  </div>
+</BaseLayout>

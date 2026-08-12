@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LEGAL } from '../config/legal';
+import { localizedPath } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+const path = localizedPath('ar', '/how-files-are-processed/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'كيف تُعالج الملفات', path },
+  ]),
+];
+---
+
+<BaseLayout title="كيف تُعالج الملفات" description="شرح شفاف لكيفية معالجة صورك داخل متصفحك." path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>كيف تُعالج الملفات</h1>
+        <p>آخر تحديث: {LEGAL.lastUpdatedDefault}</p>
+      </header>
+
+      <h2>المعالجة المحلية</h2>
+      <p>عند اختيارك لصورة، تُقرأ داخل متصفحك مباشرة وتُعالج عبر واجهات Canvas الخاصة بالمتصفح. لا يُرسل الملف إلى أي خادم ولا إلى أي جهة خارجية.</p>
+
+      <h2>خطوات المعالجة</h2>
+      <ol>
+        <li>تختار ملفًا من جهازك.</li>
+        <li>يتحقق الموقع من نوع الملف وحجمه وصلاحيته داخل متصفحك.</li>
+        <li>تُعالج الصورة (ضغط، تغيير حجم، تحويل أو قص) محليًا.</li>
+        <li>تحمّل النتيجة مباشرة إلى جهازك.</li>
+      </ol>
+
+      <h2>ماذا يحدث لملفاتك بعد ذلك؟</h2>
+      <p>لا يُخزن أي شيء. تُزال الصورة من ذاكرة المتصفح فور انتهاء المعالجة، ولا يحتفظ الموقع بأي نسخة من ملفاتك.</p>
+      <p class="legal-prose__meta">الناشر: سيُحدَّث اسم الناشر هنا.</p>
+    </article>
+  </div>
+</BaseLayout>

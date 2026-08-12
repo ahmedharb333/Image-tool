@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LEGAL } from '../config/legal';
+import { localizedPath } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+const path = localizedPath('ar', '/disclaimer/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'إخلاء المسؤولية', path },
+  ]),
+];
+---
+
+<BaseLayout title="إخلاء المسؤولية" description="إخلاء مسؤولية أدوات الصور." path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>إخلاء المسؤولية</h1>
+        <p>آخر تحديث: {LEGAL.lastUpdatedDefault}</p>
+      </header>
+
+      <h2>النتائج</h2>
+      <p>تعتمد نتائج الأدوات على مدخلاتك وعلى قدرات متصفحك وجهازك، وقد تختلف بين متصفح وآخر. تحقق دائمًا من الملف الناتج قبل استخدامه في أي إنتاج نهائي.</p>
+
+      <h2>الأدوات مجانية وداخل المتصفح</h2>
+      <p>الأدوات متاحة مجانًا وتعمل محليًا. لا يقدم الموقع استشارات مهنية، ولا يُعدّ محتواه بديلًا عنها.</p>
+
+      <h2>الاحتفاظ بنسخة احتياطية</h2>
+      <p>احتفظ دائمًا بنسخة أصلية من ملفاتك قبل أي معالجة؛ الموقع لا يحتفظ بأي نسخ ولا يمكنه استعادتها.</p>
+      <p class="legal-prose__meta">الناشر: سيُحدَّث اسم الناشر هنا.</p>
+    </article>
+  </div>
+</BaseLayout>

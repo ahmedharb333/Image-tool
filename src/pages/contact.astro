@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config/site';
+import { localizedPath } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+const path = localizedPath('ar', '/contact/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'تواصل معنا', path },
+  ]),
+];
+const email = SITE.owner.email;
+---
+
+<BaseLayout title="تواصل معنا" description="تواصل مع فريق أدوات الصور." path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>تواصل معنا</h1>
+        <p>يسعدنا استقبال أسئلتك وملاحظاتك.</p>
+      </header>
+
+      {email ? (
+        <form action={`mailto:${email}`} method="get">
+          <label class="field" data-field="subject">
+            <span class="field__label">الموضوع</span>
+            <input type="text" name="subject" value={SITE.contact.mailtoSubject.ar} required />
+          </label>
+          <label class="field" data-field="body">
+            <span class="field__label">الرسالة</span>
+            <textarea name="body" rows="6" required></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary">إرسال عبر البريد</button>
+        </form>
+      ) : (
+        <p>بريد التواصل: سيُحدَّث عنوان البريد الإلكتروني هنا.</p>
+      )}
+
+      <h2>خصوصية مراسلاتك</h2>
+      <p>لا نخزن رسائلك على أي خادم؛ يُفتح النموذج عميل البريد على جهازك مباشرةً.</p>
+    </article>
+  </div>
+</BaseLayout>

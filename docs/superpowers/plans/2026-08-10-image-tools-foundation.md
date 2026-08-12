@@ -3786,7 +3786,78 @@ export const GUIDES: GuideEntry[] = [
     related: ['resize-image', 'convert-image'],
     lastUpdated: '2026-08-10',
   },
-  // ...resize-image, convert-image, crop-image entries (same shape)
+  {
+    slug: 'resize-image',
+    title: { ar: 'كيف تغيّر أبعاد الصور' },
+    description: { ar: 'أساسيات تغيير حجم الصور للويب ووسائل التواصل دون فقدان الوضوح.' },
+    body: {
+      ar: [
+        'تغيير حجم الصورة يعني ضبط أبعادها بالبكسل أو بالنسبة المئوية. من أكثر الاستخدامات شيوعًا تجهيز الصور للرفع على مواقع التواصل أو تقليل أبعاد الصور الكبيرة جدًا.',
+        'عند التصغير بالبكسل، ابدأ بعرض أو ارتفاع واحد فقط ليُحسب الآخر تلقائيًا مع الحفاظ على نسبة الأبعاد. إدخال قيمتين معًا قد يمدد الصورة أو يعصرها.',
+        'خيار "الحد الأقصى للأبعاد" يضبط أطول ضلع في الصورة عند قيمة محددة — مثالي للصور البانورامية أو الطويلة.',
+      ],
+    },
+    faq: [
+      {
+        q: { ar: 'هل يقلل تغيير الحجم من الجودة؟' },
+        a: { ar: 'التصغير يحذف بكسلات فعلية وقد يبدو أكثر حدة؛ التكبير يضيف بكسلات جديدة دون معلومات إضافية فيبدو ضبابيًا. من الأفضل البدء من مصدر عالي الدقة.' },
+      },
+      {
+        q: { ar: 'هل أحتاج إلى الحفاظ على نسبة الأبعاد؟' },
+        a: { ar: 'نعم عادةً. تغيير الأبعاد دون الحفاظ على النسبة يشوه الصورة إلا إذا كان القصد هو ذلك عمدًا.' },
+      },
+    ],
+    related: ['compress-image', 'crop-image'],
+    lastUpdated: '2026-08-10',
+  },
+  {
+    slug: 'convert-image',
+    title: { ar: 'التحويل بين JPG وPNG وWebP' },
+    description: { ar: 'متى تختار كل صيغة وكيف تحوّل صورك دون فقدان الجودة.' },
+    body: {
+      ar: [
+        'الصيغة المناسبة تعتمد على المحتوى: JPG ممتاز للصور الفوتوغرافية، PNG يحافظ على الشفافية والتفاصيل الدقيقة، وWebP يجمع بين الجودة والحجم الصغير.',
+        'عند التحويل إلى JPG تُفقد الشفافية؛ تتحول المناطق الشفافة إلى لون تختاره (مثل الأبيض). راجع خيار الخلفية قبل التحويل.',
+        'جميع التحويلات تتم داخل متصفحك — لا يُرفع الملف إلى أي خادم، فلا تقلق بشأن خصوصية صورك.',
+      ],
+    },
+    faq: [
+      {
+        q: { ar: 'هل يمكن التحويل من PNG إلى JPG دون فقدان الشفافية؟' },
+        a: { ar: 'JPG لا يدعم الشفافية أصلًا. عند التحويل تُعبأ المناطق الشفافة بلون الخلفية الذي تختاره.' },
+      },
+      {
+        q: { ar: 'ما أفضل صيغة للويب؟' },
+        a: { ar: 'WebP تقدم حجمًا أصغر مع جودة ممتازة ويدعمها جميع المتصفحات الحديثة؛ JPG خيار جيد للصور الفوتوغرافية.' },
+      },
+    ],
+    related: ['compress-image', 'resize-image'],
+    lastUpdated: '2026-08-10',
+  },
+  {
+    slug: 'crop-image',
+    title: { ar: 'قص الصور: الأساسيات والنسب الثابتة' },
+    description: { ar: 'كيف تقصّ الصور بحرية أو بنسب جاهزة مثل 1:1 و16:9.' },
+    body: {
+      ar: [
+        'القص يزيل أجزاء من حواف الصورة مع إبقاء الدقة الداخلية كما هي — مثالي لتحسين التأطير أو تهيئة الصورة لنسبة محددة.',
+        'النسب الثابتة (مثل 1:1 لصورة الملف الشخصي أو 16:9 للعرض) تضمن أبعادًا متوافقة مع المنصات. فعّل "قفل نسبة الأبعاد" واختر النسبة.',
+        'يمكنك أيضًا تدوير الصورة 90 أو 180 أو 270 درجة أثناء القص لتصحيح الاتجاه قبل الحفظ.',
+      ],
+    },
+    faq: [
+      {
+        q: { ar: 'هل القص يقلل جودة الصورة؟' },
+        a: { ar: 'لا. القص يحذف وحدات البكسل خارج المنطقة المحددة فقط، والبكسلات المتبقية تحتفظ بدقتها الأصلية.' },
+      },
+      {
+        q: { ar: 'ما الفرق بين القص وتغيير الحجم؟' },
+        a: { ar: 'القص يزيل أجزاء من الصورة، بينما تغيير الحجم يضبط الأبعاد الكاملة. يمكن استخدامهما معًا.' },
+      },
+    ],
+    related: ['resize-image', 'convert-image'],
+    lastUpdated: '2026-08-10',
+  },
 ];
 ```
 
@@ -3847,6 +3918,52 @@ const tool = TOOLS.find((t) => t.slug === toolSlug);
 
 - [ ] **Step 3: Create `src/pages/guides/index.astro`** — grid of guides (reuse `.card-grid`)
 
+```astro
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { GUIDES } from '../../content/guides';
+import { TOOLS } from '../../config/tools';
+import { localizedPath } from '../../lib/i18n';
+import { breadcrumbJsonLd } from '../../lib/seo';
+
+const path = localizedPath('ar', '/guides/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'الأدلة', path: '/guides/' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="الأدلة"
+  description="أدلة عملية لضغط الصور وتغيير حجمها وتحويلها وقصّها داخل المتصفح."
+  path={path}
+  schemaJsonLd={schema}
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>الأدلة</h1>
+      <p>أدلة عملية خطوة بخطوة لاستخدام أدوات الصور بأفضل شكل.</p>
+    </header>
+    <div class="card-grid">
+      {
+        GUIDES.map((g) => {
+          const tool = TOOLS.find((t) => t.slug === g.slug);
+          return (
+            <article class="card">
+              <h2><a href={localizedPath('ar', `/guides/${g.slug}/`)}>{g.title.ar}</a></h2>
+              <p>{g.description.ar}</p>
+              {tool && <a class="btn btn--sm btn--accent" href={localizedPath('ar', `/tools/${g.slug}/`)}>جرّب الأداة</a>}
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>
+```
+
 - [ ] **Step 4: Create the static pages** — each a thin `BaseLayout` wrapper:
 
 - **about.astro**: uses `SITE.brandName`, `SITE.tagline`, `SITE.lastReviewedDefault`; placeholder for owner bio.
@@ -3854,6 +3971,8 @@ const tool = TOOLS.find((t) => t.slug === toolSlug);
 - **privacy.astro / cookies.astro / terms.astro / disclaimer.astro / advertising-disclosure.astro / how-files-are-processed.astro**: `legal-prose` sections, `LEGAL`/`ADS`-driven placeholders, linked from the footer.
 
 > All copy is honest: "أداة معالجة محلية — لا نرفع صورك ولا نخزنها." No invented legal entities — use explicit placeholders (e.g. "سيُحدَّث اسم الناشر هنا") where real info is missing.
+>
+> Note: the static-page copy is authored per the task 12 brief (exact Arabic strings, honest placeholders, no invented entities/people/laws/ad partners).
 
 - [ ] **Step 5: Run `astro check` + `npm test`**
 

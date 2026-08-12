@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { GUIDES } from '../../content/guides';
+import { TOOLS } from '../../config/tools';
+import { localizedPath } from '../../lib/i18n';
+import { breadcrumbJsonLd } from '../../lib/seo';
+
+const path = localizedPath('ar', '/guides/');
+const schema = [
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'الأدلة', path: '/guides/' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="الأدلة"
+  description="أدلة عملية لضغط الصور وتغيير حجمها وتحويلها وقصّها داخل المتصفح."
+  path={path}
+  schemaJsonLd={schema}
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>الأدلة</h1>
+      <p>أدلة عملية خطوة بخطوة لاستخدام أدوات الصور بأفضل شكل.</p>
+    </header>
+    <div class="card-grid">
+      {
+        GUIDES.map((g) => {
+          const tool = TOOLS.find((t) => t.slug === g.slug);
+          return (
+            <article class="card">
+              <h2><a href={localizedPath('ar', `/guides/${g.slug}/`)}>{g.title.ar}</a></h2>
+              <p>{g.description.ar}</p>
+              {tool && <a class="btn btn--sm btn--accent" href={localizedPath('ar', `/tools/${g.slug}/`)}>جرّب الأداة</a>}
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>
