@@ -2,6 +2,7 @@
 import Head from '../components/Head.astro';
 import AdSlot from '../components/AdSlot.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import ConsentToggle from '../components/ConsentToggle.astro';
 import { NAV } from '../config/nav';
 import { LOGO, SITE } from '../config/site';
 import '../styles/fonts.css';
@@ -106,6 +107,10 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
           <p>
             © {new Date().getFullYear()} {SITE.brandName.ar} — جميع الحقوق محفوظة. تتم معالجة جميع الصور محليًا داخل متصفحك.
           </p>
+          <div class="site-footer__consent">
+            <ConsentToggle />
+            <span>الموافقة على ملفات تعريف الارتباط</span>
+          </div>
           <AdSlot location="sidebar" />
         </div>
       </div>

@@ -4,7 +4,14 @@ import { TOOLS } from '../../config/tools';
 import { localizedPath } from '../../lib/i18n';
 
 const title = 'الأدوات';
-const description = 'مجموعة أدوات لمعالجة الصور داخل متصفحك دون رفع أي ملف إلى خادم.';
+const description = 'جميع أدوات معالجة الصور المحلية في مكان واحد.';
+const categories = [
+  { id: 'all', label: 'الكل' },
+  { id: 'compress', label: 'الضغط' },
+  { id: 'resize', label: 'تغيير الحجم' },
+  { id: 'convert', label: 'التحويل' },
+  { id: 'crop', label: 'القص' },
+];
 ---
 
 <BaseLayout title={title} description={description} path={localizedPath('ar', '/tools/')}>
@@ -12,11 +19,19 @@ const description = 'مجموعة أدوات لمعالجة الصور داخل 
     <h1>{title}</h1>
     <p>{description}</p>
   </section>
-  <section class="section container">
-    <div class="card-grid">
+
+  <section class="container">
+    <div class="tools-toolbar">
+      <input type="search" class="tools-search" data-tools-search placeholder="ابحث عن أداة…" aria-label="البحث في الأدوات" />
+      <div class="tools-tabs" data-tools-tabs>
+        {categories.map((c) => <button type="button" class="tool-tab" data-tool-tab={c.id} aria-pressed={c.id === 'all'}>{c.label}</button>)}
+      </div>
+    </div>
+    <div class="card-grid" data-tools-grid>
       {
         TOOLS.filter((t) => t.active).map((tool) => (
-          <a class="card tool-card-link" href={localizedPath('ar', `/tools/${tool.slug}/`)}>
+          <a class="card tool-card-link" data-tool-card={tool.category} data-tool-name={tool.title.ar} data-tool-desc={tool.description.ar}
+            href={localizedPath('ar', `/tools/${tool.slug}/`)}>
             <h2>{tool.title.ar}</h2>
             <p>{tool.description.ar}</p>
           </a>
@@ -24,4 +39,28 @@ const description = 'مجموعة أدوات لمعالجة الصور داخل 
       }
     </div>
   </section>
+
+  <script>
+    // Inline vanilla filter — keeps the tools grid dependency-free.
+    const grid = document.querySelector<HTMLElement>('[data-tools-grid]');
+    const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tool-tab]');
+    const search = document.querySelector<HTMLInputElement>('[data-tools-search]');
+
+    const cards = Array.from(grid?.querySelectorAll<HTMLAnchorElement>('[data-tool-card]') ?? []);
+    const apply = () => {
+      const activeTab = document.querySelector<HTMLButtonElement>('[data-tool-tab][aria-pressed="true"]')?.dataset.toolTab ?? 'all';
+      const q = (search?.value ?? '').trim().toLowerCase();
+      cards.forEach((card) => {
+        const matchTab = activeTab === 'all' || card.dataset.toolCard === activeTab;
+        const matchQ = q === '' || (card.dataset.toolName ?? '').includes(q) || (card.dataset.toolDesc ?? '').includes(q);
+        card.hidden = !(matchTab && matchQ);
+      });
+    };
+
+    tabs?.forEach((tab) => tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
+      apply();
+    }));
+    search?.addEventListener('input', apply);
+  </script>
 </BaseLayout>
