@@ -1,0 +1,2 @@
+# ads.txt — placeholder. Populated from src/config/ads.ts when a real
+# publisher ID is configured.

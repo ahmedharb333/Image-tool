@@ -2,11 +2,14 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { fileURLToPath } from 'node:url';
+import { SITE } from './src/config/site.ts';
 
-// NOTE: the site URL is hardcoded here because src/config/site.ts does not
-// exist until Task 2. Task 14 swaps this literal for the SITE import.
 export default defineConfig({
-  site: 'https://image-tools.example.com',
+  site: SITE.url,
+  output: 'static',
+  build: {
+    format: 'directory',
+  },
   vite: {
     resolve: {
       alias: {
