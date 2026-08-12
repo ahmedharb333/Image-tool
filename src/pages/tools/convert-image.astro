@@ -6,7 +6,7 @@ import { LIMITS } from '../../config/limits';
 import { localizedPath } from '../../lib/i18n';
 import { webApplicationJsonLd, breadcrumbJsonLd } from '../../lib/seo';
 
-const tool = TOOLS.find((t) => t.slug === 'compress-image')!;
+const tool = TOOLS.find((t) => t.slug === 'convert-image')!;
 const path = localizedPath('ar', `/tools/${tool.slug}/`);
 const schema = [
   webApplicationJsonLd({ title: tool.title.ar, description: tool.description.ar, path }),
@@ -22,11 +22,11 @@ const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
 <BaseLayout title={tool.title.ar} description={tool.description.ar} path={path} schemaJsonLd={schema}>
   <div class="container">
     <ToolShell tool={tool}>
-      <div class="tool-card" data-tool="compress-image">
+      <div class="tool-card" data-tool="convert-image">
         <form class="tool-form">
           <div class="dropzone" data-dropzone>
-            <label class="dropzone__label" for="compress-file">
-              <input type="file" id="compress-file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
+            <label class="dropzone__label" for="convert-file">
+              <input type="file" id="convert-file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
               <span class="dropzone__title">اسحب صورة هنا أو اضغط للاختيار</span>
               <span class="dropzone__hint">JPG أو PNG أو WebP — حتى {maxMb} ميغابايت</span>
             </label>
@@ -42,17 +42,17 @@ const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
               </select>
             </label>
             <label class="field" data-field="quality">
-              <span class="field__label">الجودة: <output data-quality-output>82</output>٪</span>
-              <input type="range" name="quality" min="40" max="100" step="1" value="82" data-quality-input />
+              <span class="field__label">الجودة: <output data-quality-output>85</output>٪</span>
+              <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
             </label>
-            <label class="field" data-field="targetSize">
-              <span class="field__label">الحد الأقصى للحجم (اختياري، بالكيلوبايت)</span>
-              <input type="number" name="targetSize" min="1" placeholder="مثال: 500" />
+            <label class="field field--inline" data-field="backgroundColor">
+              <span class="field__label">خلفية بيضاء (للشفافية في JPG)</span>
+              <input type="checkbox" name="backgroundColor" value="on" />
             </label>
           </div>
 
           <div class="tool-actions">
-            <button type="submit" class="btn btn--primary" data-action="process">ضغط الصورة</button>
+            <button type="submit" class="btn btn--primary" data-action="process">تحويل الصورة</button>
             <button type="button" class="btn btn--secondary" data-action="reset">إعادة تعيين</button>
           </div>
         </form>

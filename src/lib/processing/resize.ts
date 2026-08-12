@@ -1,4 +1,6 @@
-import type { Size } from './types.ts';
+import { encodeBlob, readImage } from '../image/index.ts';
+import { computeReduction } from './utils.ts';
+import type { OutputFormat, ProcessResult, Size } from './types.ts';
 
 /**
  * Pure dimension math. All values are integers >= 1.
@@ -67,4 +69,34 @@ export function clampTargetFileSize(opts: { width: number; height: number; min: 
   w = Math.max(1, Math.round(w / stride) * stride);
   h = Math.max(1, Math.round(h / stride) * stride);
   return { width: w, height: h };
+}
+
+/** Browser-side resize: read, scale, re-encode. DOM lives only inside this function. */
+export async function resizeImage(
+  blob: Blob,
+  opts: {
+    mode: 'pixel' | 'percent' | 'max';
+    width?: number;
+    height?: number;
+    percent?: number;
+    max?: number;
+    format: OutputFormat;
+    quality?: number;
+    backgroundColor?: string | null;
+  },
+): Promise<ProcessResult> {
+  const { width, height, canvas } = await readImage(blob);
+  const size = computeResize(width, height, opts);
+  const out = document.createElement('canvas');
+  out.width = size.width;
+  out.height = size.height;
+  const ctx = out.getContext('2d')!;
+  if (opts.backgroundColor) {
+    ctx.fillStyle = opts.backgroundColor;
+    ctx.fillRect(0, 0, out.width, out.height);
+  }
+  ctx.drawImage(canvas, 0, 0, out.width, out.height);
+  const type = opts.format === 'jpg' ? 'image/jpeg' : opts.format === 'png' ? 'image/png' : 'image/webp';
+  const result = await encodeBlob(out, { type, quality: opts.quality ?? 0.85, backgroundColor: opts.backgroundColor ?? null });
+  return { blob: result, width: size.width, height: size.height, sourceSize: blob.size, resultSize: result.size, reduction: computeReduction(blob.size, result.size), format: opts.format };
 }

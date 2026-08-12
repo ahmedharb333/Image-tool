@@ -4,6 +4,11 @@
   margin-top: var(--space-8);
 }
 
+.tool-status {
+  margin-top: var(--space-4);
+  font-weight: 600;
+}
+
 .result-grid {
   display: grid;
   gap: var(--space-6);
@@ -58,6 +63,7 @@
 
 /* ---- Dropzone ---- */
 .dropzone {
+  position: relative;
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-12) var(--space-6);

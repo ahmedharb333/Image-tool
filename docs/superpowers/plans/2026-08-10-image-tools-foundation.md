@@ -3477,18 +3477,18 @@ git commit -m "feat: add processing engines with dimension and crop math"
 **Shared handler pattern (each tool page):**
 
 ```ts
-import { toolApp, type ToolOutput } from '../toolApp';
-import { compressImage } from '../../processing';
-import { validateImageFile } from '../../file';
-import { LIMITS } from '../../config/limits';
-import { resultToHtml } from '../../processing';
+import { toolApp, type ToolApp } from '../toolApp.ts';
+import { validateImageFile, baseNameOf } from '../../file.ts';
+import { LIMITS } from '../../config/limits.ts';
+import { compressImage, resultToHtml } from '../../processing/index.ts';
 
-export function initTool(root: HTMLElement) {
+export function initTool(root: HTMLElement): ToolApp {
   return toolApp(root, {
     async process(inputs, payload) {
       const file = inputs['file'] as File | undefined;
       const fmt = (inputs['format'] as string | undefined) ?? 'webp';
-      const quality = Number(inputs['quality'] ?? 0.82);
+      // Quality is a percent (40-100) on the page, a fraction [0,1] in the engines.
+      const quality = (Number(inputs['quality']) || 82) / 100;
       const formats = (payload as any)?.formats ?? ['jpg', 'jpeg', 'png', 'webp'];
       const maxSize = (payload as any)?.maxSize ?? LIMITS.maxFileSize;
 
@@ -3502,26 +3502,29 @@ export function initTool(root: HTMLElement) {
         return { status: 'error', message: check.errors.join(' '), html: '' };
       }
 
+      // targetSize is entered in KB on the page; the engine compares bytes.
+      const targetKb = Number(inputs['targetSize']);
       const result = await compressImage(new Blob([buffer]), {
         format: fmt,
         quality,
         backgroundColor: fmt === 'jpg' ? '#ffffff' : null,
-        targetFileSize: Number(inputs['targetSize'] || 0) || null,
+        targetFileSize: targetKb > 0 ? targetKb * 1024 : null,
       });
 
       const link = URL.createObjectURL(result.blob);
-      const out: ToolOutput = {
+      return {
         status: 'success',
         message: 'تمت العملية بنجاح.',
         html: `${resultToHtml(result)}<p><a class="btn btn--accent" href="${link}" download="${baseNameOf(file.name)}-compressed.${result.format}">تحميل الصورة</a></p>`,
       };
-      return out;
     },
   });
 }
 ```
 
-> Note: `baseNameOf` is imported from `../../file`. `URL.createObjectURL` is browser-only and lives inside the handler, never at module top level (keeps node tests clean).
+> Note: `baseNameOf` is imported from `../../file`. `URL.createObjectURL` is browser-only and lives inside the handler, never at module top level (keeps node tests clean). All tool modules use explicit `.ts` on relative imports.
+> DOM split: `[data-status]` sits on `.tool-status` (its own element, styled with a `margin-top`), NOT on `.tool-result` — otherwise `setStatus()`'s textContent is overwritten when `result.innerHTML` is set and the success message never shows. All four pages use `<div data-alerts hidden></div><div class="tool-status" data-status></div><div class="tool-result"></div>`.
+> The `resizeImage`/`cropImage` browser glue is appended INSIDE `src/lib/processing/resize.ts` / `crop.ts` (no self-imports; all glue imports carry `.ts`) and both are re-exported from the processing barrel `index.ts`.
 
 - [ ] **Step 1: Create the four client tool modules**
 
@@ -3531,13 +3534,12 @@ Follow the pattern above. Variations:
 - **convertImage.ts**: field `format` (jpg/png/webp), `backgroundColor` when jpg (checkbox "خلفية بيضاء"), `quality`. Uses `convertImage`.
 - **cropImage.ts**: fields `x`, `y`, `w`, `h`, `lockRatio` checkbox, `ratio` select (free/1:1/16:9/4:3/3:2), `rotate` (0/90/180/270). Uses `computeCrop` + `rotationToAngle`.
 
-> `resizeImage` glue (add to `src/lib/processing/resize.ts`, browser-side):
+> `resizeImage` glue (add to `src/lib/processing/resize.ts`, browser-side — no self-import, `computeResize` lives in this file):
 
 ```ts
-import { encodeBlob, readImage } from '../image';
-import { computeResize } from './resize';
-import { computeReduction } from './utils';
-import type { ProcessResult, OutputFormat } from './types';
+import { encodeBlob, readImage } from '../image/index.ts';
+import { computeReduction } from './utils.ts';
+import type { OutputFormat, ProcessResult, Size } from './types.ts';
 
 export async function resizeImage(
   blob: Blob,
@@ -3557,13 +3559,12 @@ export async function resizeImage(
 }
 ```
 
-> `cropImage` glue (add to `src/lib/processing/crop.ts`, browser-side):
+> `cropImage` glue (add to `src/lib/processing/crop.ts`, browser-side — no self-import, `computeCrop`/`rotationToAngle` live in this file):
 
 ```ts
-import { encodeBlob, readImage } from '../image';
-import { computeCrop, rotationToAngle } from './crop';
-import { computeReduction } from './utils';
-import type { ProcessResult, OutputFormat } from './types';
+import { encodeBlob, readImage } from '../image/index.ts';
+import { computeReduction } from './utils.ts';
+import type { CropBox, OutputFormat, ProcessResult } from './types.ts';
 
 export async function cropImage(
   blob: Blob,
@@ -3598,7 +3599,7 @@ export async function cropImage(
 - [ ] **Step 2: Update the registry**
 
 ```ts
-export const toolRegistry = {
+export const toolRegistry: Record<string, () => Promise<{ initTool(root: HTMLElement): unknown }>> = {
   'compress-image': () => import('./tools/compressImage'),
   'resize-image': () => import('./tools/resizeImage'),
   'convert-image': () => import('./tools/convertImage'),
@@ -3606,15 +3607,9 @@ export const toolRegistry = {
 };
 ```
 
-> Note: import modules must export `initTool`. The dynamic-import type is `() => Promise<{ initTool(root: HTMLElement): ToolApp }>` — adjust the registry typing accordingly (drop the `.then` wrapping; `appInit` calls `mod.initTool`).
+> Registry modules export `initTool` directly (no `.then` mapping). `appInit.ts` already calls `mod.initTool(root)` — no change needed there.
 
-- [ ] **Step 3: Update `appInit.ts` for the new module shape**
-
-```ts
-loader()
-  .then((mod) => mod.initTool(root))
-  .catch((err) => console.error(...));
-```
+- [ ] **Step 3: Update `appInit.ts` for the new module shape** — ALREADY SATISFIED (Task 9's `appInit.ts` already calls `loader().then((mod) => mod.initTool(root))`); no change. Verify only.
 
 - [ ] **Step 4: Write the compress-image page** (`src/pages/tools/compress-image.astro`) — real form
 
@@ -3679,10 +3674,9 @@ const schema = [
         </form>
 
         <div data-alerts hidden></div>
-        <div class="tool-result" data-status></div>
-        <script type="application/json" data-tool-payload>
-          {JSON.stringify({ tool: tool.slug, formats: tool.formats, maxSize: LIMITS.maxFileSize })}
-        </script>
+        <div class="tool-status" data-status></div>
+        <div class="tool-result"></div>
+        <script type="application/json" data-tool-payload>{JSON.stringify({ tool: tool.slug, formats: tool.formats, maxSize: LIMITS.maxFileSize })}</script>
       </div>
     </ToolShell>
   </div>

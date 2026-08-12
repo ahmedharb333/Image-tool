@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShell from '../../components/ToolShell.astro';
+import { TOOLS } from '../../config/tools';
+import { LIMITS } from '../../config/limits';
+import { localizedPath } from '../../lib/i18n';
+import { webApplicationJsonLd, breadcrumbJsonLd } from '../../lib/seo';
+
+const tool = TOOLS.find((t) => t.slug === 'crop-image')!;
+const path = localizedPath('ar', `/tools/${tool.slug}/`);
+const schema = [
+  webApplicationJsonLd({ title: tool.title.ar, description: tool.description.ar, path }),
+  breadcrumbJsonLd([
+    { name: 'الرئيسية', path: '/' },
+    { name: 'الأدوات', path: '/tools/' },
+    { name: tool.title.ar, path },
+  ]),
+];
+const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
+---
+
+<BaseLayout title={tool.title.ar} description={tool.description.ar} path={path} schemaJsonLd={schema}>
+  <div class="container">
+    <ToolShell tool={tool}>
+      <div class="tool-card" data-tool="crop-image">
+        <form class="tool-form">
+          <div class="dropzone" data-dropzone>
+            <label class="dropzone__label" for="crop-file">
+              <input type="file" id="crop-file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
+              <span class="dropzone__title">اسحب صورة هنا أو اضغط للاختيار</span>
+              <span class="dropzone__hint">JPG أو PNG أو WebP — حتى {maxMb} ميغابايت</span>
+            </label>
+          </div>
+
+          <div class="tool-options">
+            <div class="crop-coords">
+              <label class="field" data-field="x">
+                <span class="field__label">س (يسار)</span>
+                <input type="number" name="x" min="0" placeholder="0" />
+              </label>
+              <label class="field" data-field="y">
+                <span class="field__label">ص (أعلى)</span>
+                <input type="number" name="y" min="0" placeholder="0" />
+              </label>
+              <label class="field" data-field="w">
+                <span class="field__label">العرض</span>
+                <input type="number" name="w" min="1" placeholder="800" required />
+              </label>
+              <label class="field" data-field="h">
+                <span class="field__label">الارتفاع</span>
+                <input type="number" name="h" min="1" placeholder="600" required />
+              </label>
+            </div>
+            <label class="field" data-field="ratio">
+              <span class="field__label">نسبة الأبعاد</span>
+              <select name="ratio">
+                <option value="free">حر</option>
+                <option value="1:1">1:1</option>
+                <option value="16:9">16:9</option>
+                <option value="4:3">4:3</option>
+                <option value="3:2">3:2</option>
+              </select>
+            </label>
+            <label class="field field--inline" data-field="lockRatio">
+              <span class="field__label">قفل نسبة الأبعاد</span>
+              <input type="checkbox" name="lockRatio" value="on" />
+            </label>
+            <label class="field" data-field="rotate">
+              <span class="field__label">تدوير</span>
+              <select name="rotate">
+                <option value="0">0°</option>
+                <option value="90">90°</option>
+                <option value="180">180°</option>
+                <option value="270">270°</option>
+              </select>
+            </label>
+            <label class="field" data-field="format">
+              <span class="field__label">الصيغة الناتجة</span>
+              <select name="format">
+                <option value="webp">WebP (موصى به)</option>
+                <option value="jpg">JPG</option>
+                <option value="png">PNG (بدون فقدان)</option>
+              </select>
+            </label>
+            <label class="field" data-field="quality">
+              <span class="field__label">الجودة: <output data-quality-output>85</output>٪</span>
+              <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
+            </label>
+          </div>
+
+          <div class="tool-actions">
+            <button type="submit" class="btn btn--primary" data-action="process">قص الصورة</button>
+            <button type="button" class="btn btn--secondary" data-action="reset">إعادة تعيين</button>
+          </div>
+        </form>
+
+        <div data-alerts hidden></div>
+        <div class="tool-status" data-status></div>
+        <div class="tool-result"></div>
+        <script type="application/json" data-tool-payload>{JSON.stringify({ tool: tool.slug, formats: tool.formats, maxSize: LIMITS.maxFileSize })}</script>
+      </div>
+    </ToolShell>
+  </div>
+  <script>
+    import '../../lib/client/appInit';
+  </script>
+</BaseLayout>
+
+<script is:inline>
+  const q = document.querySelector('[data-quality-input]');
+  const out = document.querySelector('[data-quality-output]');
+  if (q && out) {
+    const sync = () => { out.textContent = q.value; };
+    q.addEventListener('input', sync);
+  }
+</script>

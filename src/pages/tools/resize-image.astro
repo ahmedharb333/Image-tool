@@ -6,7 +6,7 @@ import { LIMITS } from '../../config/limits';
 import { localizedPath } from '../../lib/i18n';
 import { webApplicationJsonLd, breadcrumbJsonLd } from '../../lib/seo';
 
-const tool = TOOLS.find((t) => t.slug === 'compress-image')!;
+const tool = TOOLS.find((t) => t.slug === 'resize-image')!;
 const path = localizedPath('ar', `/tools/${tool.slug}/`);
 const schema = [
   webApplicationJsonLd({ title: tool.title.ar, description: tool.description.ar, path }),
@@ -22,17 +22,41 @@ const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
 <BaseLayout title={tool.title.ar} description={tool.description.ar} path={path} schemaJsonLd={schema}>
   <div class="container">
     <ToolShell tool={tool}>
-      <div class="tool-card" data-tool="compress-image">
+      <div class="tool-card" data-tool="resize-image">
         <form class="tool-form">
           <div class="dropzone" data-dropzone>
-            <label class="dropzone__label" for="compress-file">
-              <input type="file" id="compress-file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
+            <label class="dropzone__label" for="resize-file">
+              <input type="file" id="resize-file" name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
               <span class="dropzone__title">اسحب صورة هنا أو اضغط للاختيار</span>
               <span class="dropzone__hint">JPG أو PNG أو WebP — حتى {maxMb} ميغابايت</span>
             </label>
           </div>
 
           <div class="tool-options">
+            <label class="field" data-field="mode">
+              <span class="field__label">نوع التحجيم</span>
+              <select name="mode">
+                <option value="pixel">بالبكسل</option>
+                <option value="percent">بالنسبة المئوية</option>
+                <option value="max">الحد الأقصى للأبعاد</option>
+              </select>
+            </label>
+            <label class="field" data-field="width">
+              <span class="field__label">العرض (بكسل)</span>
+              <input type="number" name="width" min="1" placeholder="800" />
+            </label>
+            <label class="field" data-field="height">
+              <span class="field__label">الارتفاع (بكسل)</span>
+              <input type="number" name="height" min="1" placeholder="600" />
+            </label>
+            <label class="field" data-field="percent">
+              <span class="field__label">النسبة المئوية</span>
+              <input type="number" name="percent" min="1" max="500" placeholder="50" />
+            </label>
+            <label class="field" data-field="max">
+              <span class="field__label">أطول ضلع (بكسل)</span>
+              <input type="number" name="max" min="1" placeholder="2000" />
+            </label>
             <label class="field" data-field="format">
               <span class="field__label">الصيغة الناتجة</span>
               <select name="format">
@@ -42,17 +66,13 @@ const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
               </select>
             </label>
             <label class="field" data-field="quality">
-              <span class="field__label">الجودة: <output data-quality-output>82</output>٪</span>
-              <input type="range" name="quality" min="40" max="100" step="1" value="82" data-quality-input />
-            </label>
-            <label class="field" data-field="targetSize">
-              <span class="field__label">الحد الأقصى للحجم (اختياري، بالكيلوبايت)</span>
-              <input type="number" name="targetSize" min="1" placeholder="مثال: 500" />
+              <span class="field__label">الجودة: <output data-quality-output>85</output>٪</span>
+              <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
             </label>
           </div>
 
           <div class="tool-actions">
-            <button type="submit" class="btn btn--primary" data-action="process">ضغط الصورة</button>
+            <button type="submit" class="btn btn--primary" data-action="process">تغيير الحجم</button>
             <button type="button" class="btn btn--secondary" data-action="reset">إعادة تعيين</button>
           </div>
         </form>
@@ -70,10 +90,21 @@ const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
 </BaseLayout>
 
 <script is:inline>
+  const modeSel = document.querySelector('[data-field="mode"] select');
   const q = document.querySelector('[data-quality-input]');
   const out = document.querySelector('[data-quality-output]');
   if (q && out) {
     const sync = () => { out.textContent = q.value; };
     q.addEventListener('input', sync);
+  }
+  if (modeSel) {
+    const fields = ['width', 'height', 'percent', 'max'].map((id) => document.querySelector(`[data-field="${id}"]`));
+    const sync = () => {
+      fields.forEach((el) => {
+        if (el) el.hidden = el.dataset.field !== modeSel.value;
+      });
+    };
+    modeSel.addEventListener('change', sync);
+    sync();
   }
 </script>
