@@ -22,6 +22,10 @@ const email = SITE.owner.email;
         <p>يسعدنا استقبال أسئلتك وملاحظاتك.</p>
       </header>
 
+      {email && (
+        <p>راسِلنا مباشرةً على: <a href={`mailto:${email}`} dir="ltr">{email}</a></p>
+      )}
+
       {email ? (
         <form action={`mailto:${email}`} method="get">
           <label class="field" data-field="subject">

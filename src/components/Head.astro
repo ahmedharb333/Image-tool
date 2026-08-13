@@ -29,7 +29,7 @@ const fullTitle = buildTitle(title);
 const canonical = absoluteUrl(path);
 const robots = metaRobots(noindex);
 const schemas = [...schemaJsonLd, websiteJsonLd()];
-const showAdsHead = ADS.enabled && !ADS.testMode && ADS.publisherId !== '' && ADS.headCode !== '';
+const showAdsHead = ADS.enabled && !ADS.testMode && Boolean(ADS.publisherId) && Boolean(ADS.headCode);
 const showAnalyticsHead = ANALYTICS.enabled && ANALYTICS.ga4.enabled && ANALYTICS.ga4.measurementId !== '';
 const showConsent = FEATURES.consent.enabled;
 ---

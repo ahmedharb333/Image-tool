@@ -10,7 +10,7 @@ const { location, className } = Astro.props;
 
 // Ads are globally disabled until real publisher IDs exist.
 // When enabled, this renders a real <ins> slot wired to the configured ID.
-const show = ADS.enabled && !ADS.testMode && ADS.publisherId !== '';
+const show = ADS.enabled && !ADS.testMode && Boolean(ADS.publisherId);
 const slotId = ADS.slots[location];
 ---
 

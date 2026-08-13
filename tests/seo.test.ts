@@ -8,7 +8,7 @@ test('seo: title is brand-aware', () => {
 });
 
 test('seo: absoluteUrl uses the configured site URL', () => {
-  assert.equal(absoluteUrl('/tools/compress-image/'), 'https://image-tools.example.com/tools/compress-image/');
+  assert.equal(absoluteUrl('/tools/compress-image/'), 'https://tools.worldly.pro/tools/compress-image/');
 });
 
 test('seo: robots meta reflects index status', () => {
@@ -20,5 +20,5 @@ test('seo: breadcrumb JSON-LD is well-formed', () => {
   const ld = breadcrumbJsonLd([{ name: 'الرئيسية', path: '/' }, { name: 'الأدوات', path: '/tools/' }]);
   assert.equal(ld.itemListElement.length, 2);
   assert.equal(ld.itemListElement[0].position, 1);
-  assert.equal(ld.itemListElement[1].item, 'https://image-tools.example.com/tools/');
+  assert.equal(ld.itemListElement[1].item, 'https://tools.worldly.pro/tools/');
 });

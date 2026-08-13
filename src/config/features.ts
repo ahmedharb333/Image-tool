@@ -9,9 +9,11 @@ export const FEATURES = {
     enabled: false,
     programs: [] as { id: string; name: string; url: string; label: { ar: string } }[],
   },
-  /** Consent management for analytics/advertising tags. */
+  /** Consent management for analytics/advertising tags.
+   * Disabled: Google's certified CMP (via AdSense) is the sole consent UI,
+   * so the built-in banner is suppressed to avoid a duplicate EEA prompt. */
   consent: {
-    enabled: true,
+    enabled: false,
     cmp: null as null | { name: string; scriptUrl: string },
   },
   /** Analytics event tracking (respects consent). */

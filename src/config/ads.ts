@@ -5,14 +5,14 @@
 
 export const ADS = {
   /** Master switch. Advertising stays OFF until set to true deliberately. */
-  enabled: false,
-  /** Test mode renders nothing public and never shows test ads as real. */
-  testMode: true,
-  /** AdSense publisher ID placeholder — replace with the real one (pub-...). */
-  publisherId: '',
-  /** Global AdSense head code placeholder. Inserted between <head> tags only
-   * when enabled && publisherId is set && a real code is provided. */
-  headCode: '',
+  enabled: true,
+  /** Test mode: false so the AdSense head loader runs (verification + Auto Ads).
+   * No manual <ins> slots render until slot IDs are set post-approval. */
+  testMode: false,
+  /** AdSense publisher ID (pub-...). */
+  publisherId: 'pub-2317129100484201',
+  /** Global AdSense head loader. Inserted between <head> tags. */
+  headCode: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2317129100484201" crossorigin="anonymous"></script>',
   /** Individual ad-slot IDs per location. */
   slots: {
     belowIntro: '',

@@ -9,8 +9,8 @@ export const LOCALES: Locale[] = ['ar'];
 export const DEFAULT_LOCALE: Locale = 'ar';
 
 export const SITE = {
-  /** Placeholder domain — replace with the real domain before launch. */
-  url: 'https://image-tools.example.com',
+  /** Live domain. */
+  url: 'https://tools.worldly.pro',
   /** Brand name (display). */
   brandName: { ar: 'أدوات الصور' },
   /** Short brand tagline. */
@@ -18,7 +18,7 @@ export const SITE = {
   /** Owner / editorial placeholder. Kept empty until real info is provided. */
   owner: {
     name: { ar: '' },
-    email: '',
+    email: 'contact@worldly.pro',
     emailDisplay: { ar: 'بريد إلكتروني' },
   },
   /** Editorial placeholder — no invented people. */
