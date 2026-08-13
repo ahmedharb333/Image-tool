@@ -22,7 +22,7 @@ export function pathForLocale(locale: Locale, otherPath: string): string {
  * pages so nothing 404s. Update as sections gain English routes.
  */
 export function hasEnglishRoute(arPath: string): boolean {
-  return arPath === '/' || arPath.startsWith('/tools/');
+  return arPath === '/' || arPath.startsWith('/tools/') || arPath.startsWith('/guides/');
 }
 
 /** Nav href for a section link, respecting which sections exist in English. */

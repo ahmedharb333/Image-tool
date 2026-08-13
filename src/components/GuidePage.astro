@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from './AdSlot.astro';
+import { GUIDES } from '../content/guides';
+import { TOOLS } from '../config/tools';
+import { UI } from '../config/ui';
+import { type Locale } from '../config/site';
+import { localizedPath, tr } from '../lib/i18n';
+import { breadcrumbJsonLd, faqJsonLd } from '../lib/seo';
+
+interface Props {
+  slug: string;
+  locale: Locale;
+}
+
+const { slug, locale } = Astro.props;
+const guide = GUIDES.find((g) => g.slug === slug)!;
+const title = tr(guide.title, locale);
+const description = tr(guide.description, locale);
+const path = localizedPath(locale, `/guides/${guide.slug}/`);
+const body = locale === 'en' && guide.body.en ? guide.body.en : guide.body.ar;
+const tool = TOOLS.find((t) => t.slug === guide.slug);
+
+const crumbs = [
+  { name: tr(UI.crumbHome, locale), path: localizedPath(locale, '/') },
+  { name: tr(UI.sectionGuides, locale), path: localizedPath(locale, '/guides/') },
+  { name: title, path },
+];
+const schema = [
+  breadcrumbJsonLd(crumbs),
+  faqJsonLd(guide.faq.map((f) => ({ q: tr(f.q, locale), a: tr(f.a, locale) }))),
+];
+const tryLabel = tool
+  ? locale === 'en'
+    ? `Try the ${tr(tool.title, locale)} tool`
+    : `جرّب أداة ${tr(tool.title, locale)}`
+  : '';
+---
+
+<BaseLayout title={title} description={description} path={path} schemaJsonLd={schema} locale={locale}>
+  <div class="container">
+    <nav aria-label={tr(UI.breadcrumbAria, locale)}>
+      <ol class="breadcrumbs">
+        {crumbs.map((crumb, index) => (
+          <li>
+            {index === crumbs.length - 1
+              ? <span aria-current="page">{crumb.name}</span>
+              : <a href={crumb.path}>{crumb.name}</a>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <p class="legal-prose__meta">{tr(UI.guideLastUpdated, locale)}: {guide.lastUpdated}</p>
+      </header>
+
+      {body.map((para) => <p>{para}</p>)}
+
+      {tool && (
+        <p>
+          <a class="btn btn--accent" href={localizedPath(locale, `/tools/${guide.slug}/`)}>{tryLabel}</a>
+        </p>
+      )}
+
+      <h2>{tr(UI.guideFaqHeading, locale)}</h2>
+      {guide.faq.map((item) => (
+        <section>
+          <h3>{tr(item.q, locale)}</h3>
+          <p>{tr(item.a, locale)}</p>
+        </section>
+      ))}
+
+      <AdSlot location="betweenGuideSections" />
+    </article>
+  </div>
+</BaseLayout>

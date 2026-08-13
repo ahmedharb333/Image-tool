@@ -56,6 +56,19 @@ export const UI = {
   toolsSearchPlaceholder: { ar: 'ابحث عن أداة…', en: 'Search for a tool…' },
   toolsSearchAria: { ar: 'البحث في الأدوات', en: 'Search tools' },
 
+  // Guides
+  guidesIndexDesc: {
+    ar: 'أدلة عملية خطوة بخطوة لاستخدام أدوات الصور بأفضل شكل.',
+    en: 'Step-by-step practical guides to get the most out of the image tools.',
+  },
+  guidesIndexMetaDesc: {
+    ar: 'أدلة عملية لضغط الصور وتغيير حجمها وتحويلها وقصّها داخل المتصفح.',
+    en: 'Practical guides for compressing, resizing, converting and cropping images in the browser.',
+  },
+  guideLastUpdated: { ar: 'آخر تحديث', en: 'Last updated' },
+  guideFaqHeading: { ar: 'أسئلة شائعة', en: 'Frequently asked questions' },
+  tryTheTool: { ar: 'جرّب الأداة', en: 'Try the tool' },
+
   // Tool common
   breadcrumbAria: { ar: 'مسار التنقل', en: 'Breadcrumb' },
   crumbHome: { ar: 'الرئيسية', en: 'Home' },
