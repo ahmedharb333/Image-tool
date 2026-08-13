@@ -4,7 +4,9 @@ import AdSlot from '../components/AdSlot.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import ConsentToggle from '../components/ConsentToggle.astro';
 import { NAV } from '../config/nav';
-import { LOGO, SITE } from '../config/site';
+import { LOGO, SITE, type Locale } from '../config/site';
+import { UI } from '../config/ui';
+import { DIR, LANG_ATTR, localizedPath, navHref, switchLocalePath, tr } from '../lib/i18n';
 import '../styles/fonts.css';
 import '../styles/base.css';
 import '../styles/components.css';
@@ -19,6 +21,7 @@ interface Props {
   schemaJsonLd?: object[];
   lastReviewed?: string;
   isHome?: boolean;
+  locale?: Locale;
 }
 
 const {
@@ -30,14 +33,19 @@ const {
   schemaJsonLd,
   lastReviewed,
   isHome = false,
+  locale = 'ar',
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const active = (href: string) => (currentPath === href ? 'page' : undefined);
+const otherLocale: Locale = locale === 'ar' ? 'en' : 'ar';
+const otherLocalePath = switchLocalePath(otherLocale, currentPath);
+const otherLocaleLabel = otherLocale === 'en' ? UI.switchToEnglish : UI.switchToArabic;
+const home = localizedPath(locale, '/');
 ---
 
 <!doctype html>
-<html dir="rtl" lang="ar" data-theme="light">
+<html dir={DIR[locale]} lang={LANG_ATTR[locale]} data-theme="light">
   <head>
     <Head
       title={title}
@@ -47,25 +55,26 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
       noindex={noindex}
       schemaJsonLd={schemaJsonLd}
       lastReviewed={lastReviewed}
+      locale={locale}
     />
-    {/* Fonts load via the imported fonts.css (12 subset files in /fonts/);
-        no preloads or inline @font-face here — the browser fetches only the
-        subsets it needs. */}
   </head>
   <body>
-    <a class="skip-link" href="#main-content">تخطَّ إلى المحتوى الرئيسي</a>
+    <a class="skip-link" href="#main-content">{tr(UI.skipToContent, locale)}</a>
     <header class="site-header">
       <div class="container site-header__inner">
-        <a class="site-logo" href="/" aria-label={LOGO.text.ar}>{LOGO.text.ar}</a>
-        <nav class="site-nav" aria-label="التنقل الرئيسي">
+        <a class="site-logo" href={home} aria-label={tr(LOGO.text, locale)}>{tr(LOGO.text, locale)}</a>
+        <nav class="site-nav" aria-label={tr(UI.mainNavAria, locale)}>
           <ul>
             {
               NAV.main.map((item) => (
                 <li>
-                  <a href={item.href} aria-current={active(item.href)}>{item.label.ar}</a>
+                  <a href={navHref(locale, item.href)} aria-current={active(navHref(locale, item.href))}>{tr(item.label, locale)}</a>
                 </li>
               ))
             }
+            <li>
+              <a class="lang-switch" href={otherLocalePath} aria-label={tr(UI.langSwitchAria, locale)}>{tr(otherLocaleLabel, locale)}</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -79,25 +88,25 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
       <div class="container">
         <div class="site-footer__grid">
           <div>
-            <h2>{LOGO.lockup.ar}</h2>
-            <p>{SITE.tagline.ar}</p>
+            <h2>{tr(LOGO.lockup, locale)}</h2>
+            <p>{tr(SITE.tagline, locale)}</p>
           </div>
           <div>
-            <h2>روابط سريعة</h2>
+            <h2>{tr(UI.footerQuickLinks, locale)}</h2>
             <ul>
               {
                 NAV.main.map((item) => (
-                  <li><a href={item.href}>{item.label.ar}</a></li>
+                  <li><a href={navHref(locale, item.href)}>{tr(item.label, locale)}</a></li>
                 ))
               }
             </ul>
           </div>
           <div>
-            <h2>الصفحات القانونية</h2>
+            <h2>{tr(UI.footerLegal, locale)}</h2>
             <ul>
               {
                 NAV.footer.map((item) => (
-                  <li><a href={item.href}>{item.label.ar}</a></li>
+                  <li><a href={navHref(locale, item.href)}>{tr(item.label, locale)}</a></li>
                 ))
               }
             </ul>
@@ -105,11 +114,11 @@ const active = (href: string) => (currentPath === href ? 'page' : undefined);
         </div>
         <div class="site-footer__bottom">
           <p>
-            © {new Date().getFullYear()} {SITE.brandName.ar} — جميع الحقوق محفوظة. تتم معالجة جميع الصور محليًا داخل متصفحك.
+            © {new Date().getFullYear()} {tr(SITE.brandName, locale)} — {tr(UI.rightsReserved, locale)}
           </p>
           <div class="site-footer__consent">
             <ConsentToggle />
-            <span>الموافقة على ملفات تعريف الارتباط</span>
+            <span>{tr(UI.consentToggleLabel, locale)}</span>
           </div>
           <AdSlot location="sidebar" />
         </div>

@@ -4,6 +4,8 @@
  * Formats are lowercase file extensions.
  */
 
+import type { L10n } from '../lib/i18n';
+
 export type ToolCategory = 'compress' | 'resize' | 'convert' | 'crop';
 
 export interface ToolEntry {
@@ -13,9 +15,9 @@ export interface ToolEntry {
   slug: string;
   category: ToolCategory;
   /** Localized titles. */
-  title: { ar: string };
+  title: L10n;
   /** Localized one-line description (used in cards + meta). */
-  description: { ar: string };
+  description: L10n;
   /** Supported input file extensions, lowercase. */
   formats: string[];
   /** Slugs of related tools (internal linking). */
@@ -31,8 +33,8 @@ export const TOOLS: ToolEntry[] = [
     id: 'compress-image',
     slug: 'compress-image',
     category: 'compress',
-    title: { ar: 'ضغط الصور' },
-    description: { ar: 'قلّص حجم صور JPG وPNG وWebP داخل متصفحك دون رفعها إلى أي خادم.' },
+    title: { ar: 'ضغط الصور', en: 'Compress images' },
+    description: { ar: 'قلّص حجم صور JPG وPNG وWebP داخل متصفحك دون رفعها إلى أي خادم.', en: 'Shrink JPG, PNG and WebP images inside your browser without uploading them to any server.' },
     formats: ['jpg', 'jpeg', 'png', 'webp'],
     related: ['resize-image', 'convert-image'],
     guide: '',
@@ -42,8 +44,8 @@ export const TOOLS: ToolEntry[] = [
     id: 'resize-image',
     slug: 'resize-image',
     category: 'resize',
-    title: { ar: 'تغيير حجم الصور' },
-    description: { ar: 'غيّر أبعاد الصورة بالبكسل أو بالنسبة المئوية مع الحفاظ على أبعادها الأصلية.' },
+    title: { ar: 'تغيير حجم الصور', en: 'Resize images' },
+    description: { ar: 'غيّر أبعاد الصورة بالبكسل أو بالنسبة المئوية مع الحفاظ على أبعادها الأصلية.', en: 'Change image dimensions by pixels or percentage while preserving the original aspect ratio.' },
     formats: ['jpg', 'jpeg', 'png', 'webp'],
     related: ['compress-image', 'crop-image'],
     guide: '',
@@ -53,8 +55,8 @@ export const TOOLS: ToolEntry[] = [
     id: 'convert-image',
     slug: 'convert-image',
     category: 'convert',
-    title: { ar: 'تحويل صيغة الصور' },
-    description: { ar: 'حوّل الصور بين JPG وPNG وWebP مع خيارات الجودة والخلفية داخل المتصفح.' },
+    title: { ar: 'تحويل صيغة الصور', en: 'Convert image format' },
+    description: { ar: 'حوّل الصور بين JPG وPNG وWebP مع خيارات الجودة والخلفية داخل المتصفح.', en: 'Convert images between JPG, PNG and WebP with quality and background options, in the browser.' },
     formats: ['jpg', 'jpeg', 'png', 'webp'],
     related: ['compress-image', 'resize-image'],
     guide: '',
@@ -64,8 +66,8 @@ export const TOOLS: ToolEntry[] = [
     id: 'crop-image',
     slug: 'crop-image',
     category: 'crop',
-    title: { ar: 'قص الصور' },
-    description: { ar: 'اقصّ الصورة بحرية أو بنسب ثابتة مثل 1:1 و16:9 مع التدوير قبل القص.' },
+    title: { ar: 'قص الصور', en: 'Crop images' },
+    description: { ar: 'اقصّ الصورة بحرية أو بنسب ثابتة مثل 1:1 و16:9 مع التدوير قبل القص.', en: 'Crop freely or to fixed ratios like 1:1 and 16:9, with rotation before cropping.' },
     formats: ['jpg', 'jpeg', 'png', 'webp'],
     related: ['resize-image', 'convert-image'],
     guide: '',

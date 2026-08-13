@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { TOOLS } from '../config/tools';
+import { UI } from '../config/ui';
+import { type Locale } from '../config/site';
+import { localizedPath, tr } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const title = tr(UI.toolsIndexTitle, locale);
+const description = tr(UI.toolsIndexDesc, locale);
+const categories = [
+  { id: 'all', label: tr(UI.catAll, locale) },
+  { id: 'compress', label: tr(UI.catCompress, locale) },
+  { id: 'resize', label: tr(UI.catResize, locale) },
+  { id: 'convert', label: tr(UI.catConvert, locale) },
+  { id: 'crop', label: tr(UI.catCrop, locale) },
+];
+---
+
+<BaseLayout title={title} description={description} path={localizedPath(locale, '/tools/')} locale={locale}>
+  <section class="page-header">
+    <h1>{title}</h1>
+    <p>{description}</p>
+  </section>
+
+  <section class="container">
+    <div class="tools-toolbar">
+      <input type="search" class="tools-search" data-tools-search placeholder={tr(UI.toolsSearchPlaceholder, locale)} aria-label={tr(UI.toolsSearchAria, locale)} />
+      <div class="tools-tabs" data-tools-tabs>
+        {categories.map((c) => <button type="button" class="tool-tab" data-tool-tab={c.id} aria-pressed={c.id === 'all'}>{c.label}</button>)}
+      </div>
+    </div>
+    <div class="card-grid" data-tools-grid>
+      {
+        TOOLS.filter((t) => t.active).map((tool) => (
+          <a class="card tool-card-link" data-tool-card={tool.category} data-tool-name={tr(tool.title, locale)} data-tool-desc={tr(tool.description, locale)}
+            href={localizedPath(locale, `/tools/${tool.slug}/`)}>
+            <h2>{tr(tool.title, locale)}</h2>
+            <p>{tr(tool.description, locale)}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <script>
+    const grid = document.querySelector<HTMLElement>('[data-tools-grid]');
+    const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tool-tab]');
+    const search = document.querySelector<HTMLInputElement>('[data-tools-search]');
+
+    const cards = Array.from(grid?.querySelectorAll<HTMLAnchorElement>('[data-tool-card]') ?? []);
+    const apply = () => {
+      const activeTab = document.querySelector<HTMLButtonElement>('[data-tool-tab][aria-pressed="true"]')?.dataset.toolTab ?? 'all';
+      const q = (search?.value ?? '').trim().toLowerCase();
+      cards.forEach((card) => {
+        const matchTab = activeTab === 'all' || card.dataset.toolCard === activeTab;
+        const matchQ = q === '' || (card.dataset.toolName ?? '').toLowerCase().includes(q) || (card.dataset.toolDesc ?? '').toLowerCase().includes(q);
+        card.hidden = !(matchTab && matchQ);
+      });
+    };
+
+    tabs?.forEach((tab) => tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
+      apply();
+    }));
+    search?.addEventListener('input', apply);
+  </script>
+</BaseLayout>

@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from './AdSlot.astro';
+import { TOOLS } from '../config/tools';
+import { LIMITS } from '../config/limits';
+import { UI } from '../config/ui';
+import { type Locale } from '../config/site';
+import { localizedPath, tr } from '../lib/i18n';
+import { webApplicationJsonLd, breadcrumbJsonLd } from '../lib/seo';
+
+interface Props {
+  slug: string;
+  locale: Locale;
+}
+
+const { slug, locale } = Astro.props;
+const tool = TOOLS.find((t) => t.slug === slug)!;
+const title = tr(tool.title, locale);
+const description = tr(tool.description, locale);
+const path = localizedPath(locale, `/tools/${tool.slug}/`);
+const maxMb = Math.round(LIMITS.maxFileSize / 1024 / 1024);
+
+const crumbs = [
+  { name: tr(UI.crumbHome, locale), path: localizedPath(locale, '/') },
+  { name: tr(UI.crumbTools, locale), path: localizedPath(locale, '/tools/') },
+  { name: title, path },
+];
+const schema = [
+  webApplicationJsonLd({ title, description, path }),
+  breadcrumbJsonLd(crumbs),
+];
+const dropHint = locale === 'en'
+  ? `JPG, PNG or WebP — up to ${maxMb} MB`
+  : `JPG أو PNG أو WebP — حتى ${maxMb} ميغابايت`;
+const fileId = `${slug}-file`;
+---
+
+<BaseLayout title={title} description={description} path={path} schemaJsonLd={schema} locale={locale}>
+  <div class="container">
+    <nav aria-label={tr(UI.breadcrumbAria, locale)}>
+      <ol class="breadcrumbs">
+        {crumbs.map((crumb, index) => (
+          <li>
+            {index === crumbs.length - 1
+              ? <span aria-current="page">{crumb.name}</span>
+              : <a href={crumb.path}>{crumb.name}</a>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <header class="tool-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+
+    <div class="tool-card" data-tool={slug}>
+      <form class="tool-form">
+        <div class="dropzone" data-dropzone>
+          <label class="dropzone__label" for={fileId}>
+            <input type="file" id={fileId} name="file" accept="image/jpeg,image/png,image/webp" data-upload-input required />
+            <span class="dropzone__title">{tr(UI.dropTitle, locale)}</span>
+            <span class="dropzone__hint">{dropHint}</span>
+          </label>
+        </div>
+
+        <div class="tool-options">
+          {slug === 'compress-image' && (
+            <>
+              <label class="field" data-field="format">
+                <span class="field__label">{tr(UI.outputFormat, locale)}</span>
+                <select name="format">
+                  <option value="webp">{tr(UI.optWebp, locale)}</option>
+                  <option value="jpg">{tr(UI.optJpg, locale)}</option>
+                  <option value="png">{tr(UI.optPng, locale)}</option>
+                </select>
+              </label>
+              <label class="field" data-field="quality">
+                <span class="field__label">{tr(UI.qualityPrefix, locale)}<output data-quality-output>82</output>{tr(UI.qualitySuffix, locale)}</span>
+                <input type="range" name="quality" min="40" max="100" step="1" value="82" data-quality-input />
+              </label>
+              <label class="field" data-field="targetSize">
+                <span class="field__label">{tr(UI.compressMaxSize, locale)}</span>
+                <input type="number" name="targetSize" min="1" placeholder={tr(UI.compressMaxSizePlaceholder, locale)} />
+              </label>
+            </>
+          )}
+
+          {slug === 'resize-image' && (
+            <>
+              <label class="field" data-field="mode">
+                <span class="field__label">{tr(UI.resizeMode, locale)}</span>
+                <select name="mode">
+                  <option value="pixel">{tr(UI.resizeByPixel, locale)}</option>
+                  <option value="percent">{tr(UI.resizeByPercent, locale)}</option>
+                  <option value="max">{tr(UI.resizeByMax, locale)}</option>
+                </select>
+              </label>
+              <label class="field" data-field="width">
+                <span class="field__label">{tr(UI.resizeWidth, locale)}</span>
+                <input type="number" name="width" min="1" placeholder="800" />
+              </label>
+              <label class="field" data-field="height">
+                <span class="field__label">{tr(UI.resizeHeight, locale)}</span>
+                <input type="number" name="height" min="1" placeholder="600" />
+              </label>
+              <label class="field" data-field="percent">
+                <span class="field__label">{tr(UI.resizePercent, locale)}</span>
+                <input type="number" name="percent" min="1" max="500" placeholder="50" />
+              </label>
+              <label class="field" data-field="max">
+                <span class="field__label">{tr(UI.resizeLongEdge, locale)}</span>
+                <input type="number" name="max" min="1" placeholder="2000" />
+              </label>
+              <label class="field" data-field="format">
+                <span class="field__label">{tr(UI.outputFormat, locale)}</span>
+                <select name="format">
+                  <option value="webp">{tr(UI.optWebp, locale)}</option>
+                  <option value="jpg">{tr(UI.optJpg, locale)}</option>
+                  <option value="png">{tr(UI.optPng, locale)}</option>
+                </select>
+              </label>
+              <label class="field" data-field="quality">
+                <span class="field__label">{tr(UI.qualityPrefix, locale)}<output data-quality-output>85</output>{tr(UI.qualitySuffix, locale)}</span>
+                <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
+              </label>
+            </>
+          )}
+
+          {slug === 'convert-image' && (
+            <>
+              <label class="field" data-field="format">
+                <span class="field__label">{tr(UI.outputFormat, locale)}</span>
+                <select name="format">
+                  <option value="webp">{tr(UI.optWebp, locale)}</option>
+                  <option value="jpg">{tr(UI.optJpg, locale)}</option>
+                  <option value="png">{tr(UI.optPng, locale)}</option>
+                </select>
+              </label>
+              <label class="field" data-field="quality">
+                <span class="field__label">{tr(UI.qualityPrefix, locale)}<output data-quality-output>85</output>{tr(UI.qualitySuffix, locale)}</span>
+                <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
+              </label>
+              <label class="field field--inline" data-field="backgroundColor">
+                <span class="field__label">{tr(UI.convertWhiteBg, locale)}</span>
+                <input type="checkbox" name="backgroundColor" value="on" />
+              </label>
+            </>
+          )}
+
+          {slug === 'crop-image' && (
+            <>
+              <div class="crop-coords">
+                <label class="field" data-field="x">
+                  <span class="field__label">{tr(UI.cropX, locale)}</span>
+                  <input type="number" name="x" min="0" placeholder="0" />
+                </label>
+                <label class="field" data-field="y">
+                  <span class="field__label">{tr(UI.cropY, locale)}</span>
+                  <input type="number" name="y" min="0" placeholder="0" />
+                </label>
+                <label class="field" data-field="w">
+                  <span class="field__label">{tr(UI.cropW, locale)}</span>
+                  <input type="number" name="w" min="1" placeholder="800" required />
+                </label>
+                <label class="field" data-field="h">
+                  <span class="field__label">{tr(UI.cropH, locale)}</span>
+                  <input type="number" name="h" min="1" placeholder="600" required />
+                </label>
+              </div>
+              <label class="field" data-field="ratio">
+                <span class="field__label">{tr(UI.cropRatio, locale)}</span>
+                <select name="ratio">
+                  <option value="free">{tr(UI.cropFree, locale)}</option>
+                  <option value="1:1">1:1</option>
+                  <option value="16:9">16:9</option>
+                  <option value="4:3">4:3</option>
+                  <option value="3:2">3:2</option>
+                </select>
+              </label>
+              <label class="field field--inline" data-field="lockRatio">
+                <span class="field__label">{tr(UI.cropLockRatio, locale)}</span>
+                <input type="checkbox" name="lockRatio" value="on" />
+              </label>
+              <label class="field" data-field="rotate">
+                <span class="field__label">{tr(UI.cropRotate, locale)}</span>
+                <select name="rotate">
+                  <option value="0">0°</option>
+                  <option value="90">90°</option>
+                  <option value="180">180°</option>
+                  <option value="270">270°</option>
+                </select>
+              </label>
+              <label class="field" data-field="format">
+                <span class="field__label">{tr(UI.outputFormat, locale)}</span>
+                <select name="format">
+                  <option value="webp">{tr(UI.optWebp, locale)}</option>
+                  <option value="jpg">{tr(UI.optJpg, locale)}</option>
+                  <option value="png">{tr(UI.optPng, locale)}</option>
+                </select>
+              </label>
+              <label class="field" data-field="quality">
+                <span class="field__label">{tr(UI.qualityPrefix, locale)}<output data-quality-output>85</output>{tr(UI.qualitySuffix, locale)}</span>
+                <input type="range" name="quality" min="40" max="100" step="1" value="85" data-quality-input />
+              </label>
+            </>
+          )}
+        </div>
+
+        <div class="tool-actions">
+          <button type="submit" class="btn btn--primary" data-action="process">
+            {slug === 'compress-image' && tr(UI.compressProcess, locale)}
+            {slug === 'resize-image' && tr(UI.resizeProcess, locale)}
+            {slug === 'convert-image' && tr(UI.convertProcess, locale)}
+            {slug === 'crop-image' && tr(UI.cropProcess, locale)}
+          </button>
+          <button type="button" class="btn btn--secondary" data-action="reset">{tr(UI.reset, locale)}</button>
+        </div>
+      </form>
+
+      <div data-alerts hidden></div>
+      <div class="tool-status" data-status></div>
+      <div class="tool-result"></div>
+      <script type="application/json" data-tool-payload set:html={JSON.stringify({ tool: tool.slug, formats: tool.formats, maxSize: LIMITS.maxFileSize })} />
+    </div>
+
+    <div class="tool-ads">
+      <AdSlot location="afterResult" />
+    </div>
+  </div>
+
+  <script>
+    import '../lib/client/appInit';
+  </script>
+</BaseLayout>
+
+<script is:inline>
+  const q = document.querySelector('[data-quality-input]');
+  const out = document.querySelector('[data-quality-output]');
+  if (q && out) {
+    q.addEventListener('input', () => { out.textContent = q.value; });
+  }
+  const modeSel = document.querySelector('[data-field="mode"] select');
+  if (modeSel) {
+    const fields = ['width', 'height', 'percent', 'max'].map((id) => document.querySelector(`[data-field="${id}"]`));
+    const sync = () => {
+      fields.forEach((el) => { if (el) el.hidden = el.dataset.field !== modeSel.value; });
+    };
+    modeSel.addEventListener('change', sync);
+    sync();
+  }
+</script>

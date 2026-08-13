@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { TOOLS } from '../config/tools';
+import { SITE, type Locale } from '../config/site';
+import { GUIDES } from '../content/guides';
+import { UI } from '../config/ui';
+import { localizedPath, tr } from '../lib/i18n';
+import { websiteJsonLd } from '../lib/seo';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const path = localizedPath(locale, '/');
+const activeTools = TOOLS.filter((t) => t.active);
+
+const toolIcon: Record<string, string> = {
+  compress: '🗜️',
+  resize: '📐',
+  convert: '🔄',
+  crop: '✂️',
+};
+---
+
+<BaseLayout title={tr(SITE.brandName, locale)} description={tr(SITE.tagline, locale)} path={path} isHome locale={locale} schemaJsonLd={[websiteJsonLd()]}>
+  <section class="home-hero">
+    <div class="container home-hero__inner">
+      <span class="home-hero__badge">{tr(UI.heroBadge, locale)}</span>
+      <h1>{tr(UI.heroTitle, locale)}</h1>
+      <p>{tr(UI.heroText, locale)}</p>
+      <a class="btn btn--accent" href={localizedPath(locale, '/tools/compress-image/')}>{tr(UI.startNow, locale)}</a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2 class="section__title">{tr(UI.sectionTools, locale)}</h2>
+    <div class="card-grid">
+      {
+        activeTools.map((tool) => (
+          <a class="card tool-card-link" href={localizedPath(locale, `/tools/${tool.slug}/`)}>
+            <span class="tool-card__icon" aria-hidden="true">{toolIcon[tool.category] ?? '🖼️'}</span>
+            <h3>{tr(tool.title, locale)}</h3>
+            <p>{tr(tool.description, locale)}</p>
+            <span class="tool-card__cta">{tr(UI.toolCta, locale)}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="section__title">{tr(UI.sectionHow, locale)}</h2>
+      <ol class="steps">
+        <li><strong>{tr(UI.step1Strong, locale)}</strong> {tr(UI.step1Rest, locale)}</li>
+        <li><strong>{tr(UI.step2Strong, locale)}</strong> {tr(UI.step2Rest, locale)}</li>
+        <li><strong>{tr(UI.step3Strong, locale)}</strong> {tr(UI.step3Rest, locale)}</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2 class="section__title">{tr(UI.sectionGuides, locale)}</h2>
+    <div class="card-grid">
+      {
+        GUIDES.map((g) => (
+          <a class="card tool-card-link" href={localizedPath(locale, `/guides/${g.slug}/`)}>
+            <h3>{tr(g.title, locale)}</h3>
+            <p>{tr(g.description, locale)}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
