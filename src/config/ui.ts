@@ -69,6 +69,21 @@ export const UI = {
   guideFaqHeading: { ar: 'أسئلة شائعة', en: 'Frequently asked questions' },
   tryTheTool: { ar: 'جرّب الأداة', en: 'Try the tool' },
 
+  // Contact
+  contactTitle: { ar: 'تواصل معنا', en: 'Contact us' },
+  contactMetaDesc: { ar: 'تواصل مع فريق أدوات الصور.', en: 'Get in touch with the Image Tools team.' },
+  contactIntro: { ar: 'يسعدنا استقبال أسئلتك وملاحظاتك.', en: 'We would be glad to hear your questions and feedback.' },
+  contactEmailAt: { ar: 'راسِلنا مباشرةً على:', en: 'Email us directly at:' },
+  contactSubject: { ar: 'الموضوع', en: 'Subject' },
+  contactMessage: { ar: 'الرسالة', en: 'Message' },
+  contactSend: { ar: 'إرسال عبر البريد', en: 'Send by email' },
+  contactNoEmail: { ar: 'بريد التواصل: سيُحدَّث عنوان البريد الإلكتروني هنا.', en: 'Contact email: the email address will be added here.' },
+  contactPrivacyHeading: { ar: 'خصوصية مراسلاتك', en: 'Your message privacy' },
+  contactPrivacyText: {
+    ar: 'لا نخزن رسائلك على أي خادم؛ يُفتح النموذج عميل البريد على جهازك مباشرةً.',
+    en: 'We do not store your messages on any server; the form opens your email client directly on your device.',
+  },
+
   // Tool common
   breadcrumbAria: { ar: 'مسار التنقل', en: 'Breadcrumb' },
   crumbHome: { ar: 'الرئيسية', en: 'Home' },

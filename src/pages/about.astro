@@ -1,30 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../config/site';
-import { localizedPath } from '../lib/i18n';
-import { breadcrumbJsonLd } from '../lib/seo';
-
-const path = localizedPath('ar', '/about/');
-const schema = [
-  breadcrumbJsonLd([
-    { name: 'الرئيسية', path: '/' },
-    { name: SITE.brandName.ar, path },
-  ]),
-];
+import StaticPage from '../components/StaticPage.astro';
 ---
 
-<BaseLayout title={SITE.brandName.ar} description={SITE.tagline.ar} path={path} schemaJsonLd={schema}>
-  <div class="container">
-    <article class="legal-prose">
-      <header class="page-header">
-        <h1>عن {SITE.brandName.ar}</h1>
-        <p>{SITE.tagline.ar}</p>
-      </header>
-      <p>أدوات الصور موقع يقدم أدوات معالجة صور تعمل بالكامل داخل متصفحك. نهدف إلى أدوات سريعة ومجانية تعالج ملفاتك محليًا دون رفعها إلى أي خادم.</p>
-      <p>جميع المعالجة تتم عبر واجهات Canvas في متصفحك، ولا نُرسل أو نخزن أيًا من ملفاتك.</p>
-      <h2>الناشر</h2>
-      <p>سيُحدَّث اسم الناشر هنا.</p>
-      <p class="legal-prose__meta">{SITE.reviewerPlaceholder.ar} — آخر مراجعة: {SITE.lastReviewedDefault}</p>
-    </article>
-  </div>
-</BaseLayout>
+<StaticPage slug="about" locale="ar" />

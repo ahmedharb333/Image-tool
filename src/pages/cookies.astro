@@ -1,35 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { LEGAL } from '../config/legal';
-import { localizedPath } from '../lib/i18n';
-import { breadcrumbJsonLd } from '../lib/seo';
-
-const path = localizedPath('ar', '/cookies/');
-const schema = [
-  breadcrumbJsonLd([
-    { name: 'الرئيسية', path: '/' },
-    { name: 'سياسة الكوكيز', path },
-  ]),
-];
+import StaticPage from '../components/StaticPage.astro';
 ---
 
-<BaseLayout title="سياسة الكوكيز" description="كيف يتعامل الموقع مع ملفات تعريف الارتباط." path={path} schemaJsonLd={schema}>
-  <div class="container">
-    <article class="legal-prose">
-      <header class="page-header">
-        <h1>سياسة الكوكيز</h1>
-        <p>آخر تحديث: {LEGAL.lastUpdatedDefault}</p>
-      </header>
-
-      <h2>ما نستخدمه</h2>
-      <p>لا يستخدم الموقع ملفات تعريف الارتباط للتتبع أو الإعلانات. نستخدم التخزين المحلي في متصفحك (localStorage) لحفظ قرارك بشأن الموافقة على ملفات تعريف الارتباط تحت المفتاح <code>image-tools-consent</code> بقيمة <code>granted</code> أو <code>denied</code>.</p>
-
-      <h2>كيف تدير تفضيلاتك</h2>
-      <p>يمكنك تغيير قرارك في أي وقت من زر الموافقة في الموقع، أو مسح بيانات الموقع من إعدادات متصفحك.</p>
-
-      <h2>التحديثات</h2>
-      <p>إذا استخدم الموقع ملفات تعريف الارتباط في المستقبل، ستُحدَّث هذه الصفحة قبل ذلك.</p>
-      <p class="legal-prose__meta">الناشر: سيُحدَّث اسم الناشر هنا.</p>
-    </article>
-  </div>
-</BaseLayout>
+<StaticPage slug="cookies" locale="ar" />

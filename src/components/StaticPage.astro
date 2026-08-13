@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PAGES } from '../content/pages';
+import { LEGAL } from '../config/legal';
+import { UI } from '../config/ui';
+import { type Locale } from '../config/site';
+import { localizedPath, tr } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+interface Props {
+  slug: string;
+  locale: Locale;
+}
+
+const { slug, locale } = Astro.props;
+const page = PAGES.find((p) => p.slug === slug)!;
+const title = tr(page.title, locale);
+const path = localizedPath(locale, `/${page.slug}/`);
+const schema = [
+  breadcrumbJsonLd([
+    { name: tr(UI.crumbHome, locale), path: localizedPath(locale, '/') },
+    { name: title, path },
+  ]),
+];
+---
+
+<BaseLayout title={title} description={tr(page.metaDesc, locale)} path={path} schemaJsonLd={schema} locale={locale}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>{title}</h1>
+        {page.subtitle && <p>{tr(page.subtitle, locale)}</p>}
+        {page.showLastUpdated && <p>{tr(UI.guideLastUpdated, locale)}: {LEGAL.lastUpdatedDefault}</p>}
+      </header>
+
+      {page.sections.map((section) => (
+        <>
+          {section.heading && <h2>{tr(section.heading, locale)}</h2>}
+          {section.html && <div set:html={tr(section.html, locale)} />}
+          {section.list && (
+            <ol>
+              {section.list.map((item) => <li>{tr(item, locale)}</li>)}
+            </ol>
+          )}
+        </>
+      ))}
+
+      {page.meta && <p class="legal-prose__meta">{tr(page.meta, locale)}</p>}
+    </article>
+  </div>
+</BaseLayout>

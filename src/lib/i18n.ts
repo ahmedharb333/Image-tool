@@ -21,8 +21,9 @@ export function pathForLocale(locale: Locale, otherPath: string): string {
  * translated (later phases), English nav points those sections at the Arabic
  * pages so nothing 404s. Update as sections gain English routes.
  */
-export function hasEnglishRoute(arPath: string): boolean {
-  return arPath === '/' || arPath.startsWith('/tools/') || arPath.startsWith('/guides/');
+export function hasEnglishRoute(_arPath: string): boolean {
+  // All sections are translated; every page has an English route.
+  return true;
 }
 
 /** Nav href for a section link, respecting which sections exist in English. */

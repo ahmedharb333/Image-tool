@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, type Locale } from '../config/site';
+import { UI } from '../config/ui';
+import { localizedPath, tr } from '../lib/i18n';
+import { breadcrumbJsonLd } from '../lib/seo';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const path = localizedPath(locale, '/contact/');
+const title = tr(UI.contactTitle, locale);
+const email = SITE.owner.email;
+const schema = [
+  breadcrumbJsonLd([
+    { name: tr(UI.crumbHome, locale), path: localizedPath(locale, '/') },
+    { name: title, path },
+  ]),
+];
+---
+
+<BaseLayout title={title} description={tr(UI.contactMetaDesc, locale)} path={path} schemaJsonLd={schema} locale={locale}>
+  <div class="container">
+    <article class="legal-prose">
+      <header class="page-header">
+        <h1>{title}</h1>
+        <p>{tr(UI.contactIntro, locale)}</p>
+      </header>
+
+      {email && (
+        <p>{tr(UI.contactEmailAt, locale)} <a href={`mailto:${email}`} dir="ltr">{email}</a></p>
+      )}
+
+      {email ? (
+        <form action={`mailto:${email}`} method="get">
+          <label class="field" data-field="subject">
+            <span class="field__label">{tr(UI.contactSubject, locale)}</span>
+            <input type="text" name="subject" value={tr(SITE.contact.mailtoSubject, locale)} required />
+          </label>
+          <label class="field" data-field="body">
+            <span class="field__label">{tr(UI.contactMessage, locale)}</span>
+            <textarea name="body" rows="6" required></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary">{tr(UI.contactSend, locale)}</button>
+        </form>
+      ) : (
+        <p>{tr(UI.contactNoEmail, locale)}</p>
+      )}
+
+      <h2>{tr(UI.contactPrivacyHeading, locale)}</h2>
+      <p>{tr(UI.contactPrivacyText, locale)}</p>
+    </article>
+  </div>
+</BaseLayout>
