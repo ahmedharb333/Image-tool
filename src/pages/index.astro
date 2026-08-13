@@ -8,11 +8,19 @@ import { websiteJsonLd } from '../lib/seo';
 
 const path = localizedPath('ar', '/');
 const activeTools = TOOLS.filter((t) => t.active);
+
+const toolIcon: Record<string, string> = {
+  compress: '🗜️',
+  resize: '📐',
+  convert: '🔄',
+  crop: '✂️',
+};
 ---
 
 <BaseLayout title={SITE.brandName.ar} description={SITE.tagline.ar} path={path} isHome schemaJsonLd={[websiteJsonLd()]}>
   <section class="home-hero">
     <div class="container home-hero__inner">
+      <span class="home-hero__badge">🔒 يعمل بالكامل داخل متصفحك — لا رفع للملفات</span>
       <h1>أدوات معالجة الصور داخل متصفحك</h1>
       <p>ضغط، تغيير حجم، تحويل واقتصاص الصور — بالكامل محليًا دون رفع أي ملف إلى أي خادم.</p>
       <a class="btn btn--accent" href="/tools/compress-image/">ابدأ الآن</a>
@@ -25,8 +33,10 @@ const activeTools = TOOLS.filter((t) => t.active);
       {
         activeTools.map((tool) => (
           <a class="card tool-card-link" href={localizedPath('ar', `/tools/${tool.slug}/`)}>
+            <span class="tool-card__icon" aria-hidden="true">{toolIcon[tool.category] ?? '🖼️'}</span>
             <h3>{tool.title.ar}</h3>
             <p>{tool.description.ar}</p>
+            <span class="tool-card__cta">جرّب الآن ←</span>
           </a>
         ))
       }
