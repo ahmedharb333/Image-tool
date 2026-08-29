@@ -79,7 +79,12 @@ export function toolApp(root: HTMLElement, handlers: ToolHandlers): ToolApp {
       } else {
         showAlerts([]);
         setStatus(output.status, output.message ?? '');
-        if (result) result.innerHTML = output.html;
+        if (result) {
+          result.innerHTML = output.html;
+          // Bring the result into view so it's obvious something happened —
+          // the result renders below the (long) form and can be off-screen.
+          result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'حدث خطأ غير متوقع.';
@@ -99,16 +104,21 @@ export function toolApp(root: HTMLElement, handlers: ToolHandlers): ToolApp {
   }
 
   function init() {
+    // The process button is type="submit" inside the form, so the submit
+    // handler covers it — a separate click handler would run process() twice.
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       process();
     });
-    root.querySelectorAll<HTMLElement>('[data-action="process"]').forEach((el) =>
-      el.addEventListener('click', () => process()),
-    );
     root.querySelectorAll<HTMLElement>('[data-action="reset"]').forEach((el) =>
       el.addEventListener('click', () => reset()),
     );
+    // Confirm the selected file in the dropzone so the user sees it registered.
+    uploadInput?.addEventListener('change', () => {
+      const f = uploadInput.files && uploadInput.files[0];
+      const titleEl = root.querySelector<HTMLElement>('.dropzone__title');
+      if (f && titleEl) titleEl.textContent = `✓ ${f.name}`;
+    });
   }
 
   function destroy() {
