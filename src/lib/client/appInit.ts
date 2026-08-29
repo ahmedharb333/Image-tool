@@ -13,7 +13,12 @@ export function initApp(): void {
       return;
     }
     loader()
-      .then((mod) => mod.initTool(root))
+      .then((mod) => {
+        // initTool builds the tool controller; it must be started with init()
+        // to attach the form/submit/reset handlers.
+        const app = mod.initTool(root) as { init?: () => void };
+        app?.init?.();
+      })
       .catch((err) => console.error(`[image-tools] failed to init ${slug}`, err));
   });
 }
