@@ -57,7 +57,11 @@ const tryLabel = tool
         <p class="legal-prose__meta">{tr(UI.guideLastUpdated, locale)}: {guide.lastUpdated}</p>
       </header>
 
-      {body.map((para) => <p>{para}</p>)}
+      {body.map((para) => (
+        para.startsWith('## ')
+          ? <h2>{para.slice(3)}</h2>
+          : <p set:html={para} />
+      ))}
 
       {tool && (
         <p>
