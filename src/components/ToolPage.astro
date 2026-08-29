@@ -4,6 +4,7 @@ import AdSlot from './AdSlot.astro';
 import { TOOLS } from '../config/tools';
 import { LIMITS } from '../config/limits';
 import { UI } from '../config/ui';
+import { TOOL_CONTENT } from '../content/tool-content';
 import { type Locale } from '../config/site';
 import { localizedPath, tr } from '../lib/i18n';
 import { webApplicationJsonLd, breadcrumbJsonLd } from '../lib/seo';
@@ -33,6 +34,10 @@ const dropHint = locale === 'en'
   ? `JPG, PNG or WebP — up to ${maxMb} MB`
   : `JPG أو PNG أو WebP — حتى ${maxMb} ميغابايت`;
 const fileId = `${slug}-file`;
+const toolContent = TOOL_CONTENT[slug];
+const toolBody = toolContent
+  ? (locale === 'en' && toolContent.body.en ? toolContent.body.en : toolContent.body.ar)
+  : [];
 ---
 
 <BaseLayout title={title} description={description} path={path} schemaJsonLd={schema} locale={locale}>
@@ -227,6 +232,16 @@ const fileId = `${slug}-file`;
     <div class="tool-ads">
       <AdSlot location="afterResult" />
     </div>
+
+    {toolBody.length > 0 && (
+      <article class="legal-prose tool-article">
+        {toolBody.map((para) => (
+          para.startsWith('## ')
+            ? <h2>{para.slice(3)}</h2>
+            : <p set:html={para} />
+        ))}
+      </article>
+    )}
   </div>
 
   <script>
