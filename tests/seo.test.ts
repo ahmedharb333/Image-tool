@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { buildTitle, absoluteUrl, metaRobots, breadcrumbJsonLd } from '../src/lib/seo.ts';
 
 test('seo: title is brand-aware', () => {
-  assert.equal(buildTitle('ضغط الصور'), 'ضغط الصور | أدوات الصور');
-  assert.equal(buildTitle('أدوات الصور'), 'أدوات الصور — أدوات معالجة الصور داخل متصفحك');
+  assert.equal(buildTitle('ضغط الصور'), 'ضغط الصور | أدوات وردلي');
+  assert.equal(buildTitle('أدوات وردلي'), 'أدوات وردلي — أدوات مجانية داخل متصفحك — للصور والمستندات وأكثر، دون رفع أي ملف');
 });
 
 test('seo: absoluteUrl uses the configured site URL', () => {
