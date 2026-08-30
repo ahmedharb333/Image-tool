@@ -85,6 +85,12 @@ export const UI = {
   docErrFail: { ar: 'تعذّر تحويل الملف.', en: 'Could not convert the file.' },
   docNotePdf: { ar: 'قد تختلف النتائج مع ملفات PDF لأنها لا تحمل بنية نصية واضحة.', en: 'Results may vary for PDFs, since they carry no clear text structure.' },
   docNoteRtf: { ar: 'تحويل مبسّط لملفات RTF.', en: 'Basic conversion for RTF files.' },
+  docTabMarkdown: { ar: 'Markdown', en: 'Markdown' },
+  docTabPreview: { ar: 'معاينة', en: 'Preview' },
+  docClear: { ar: 'مسح', en: 'Clear' },
+  docWords: { ar: 'كلمة', en: 'words' },
+  docChars: { ar: 'حرف', en: 'chars' },
+  docDropActive: { ar: 'أفلت الملف للتحويل', en: 'Drop the file to convert' },
 
   // Contact
   contactTitle: { ar: 'تواصل معنا', en: 'Contact us' },

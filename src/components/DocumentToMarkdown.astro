@@ -64,6 +64,10 @@ const body = content ? (locale === 'en' && content.body.en ? content.body.en : c
       data-note-rtf={tr(UI.docNoteRtf, locale)}
       data-copy={tr(UI.docCopy, locale)}
       data-copied={tr(UI.docCopied, locale)}
+      data-drop-active={tr(UI.docDropActive, locale)}
+      data-words={tr(UI.docWords, locale)}
+      data-chars={tr(UI.docChars, locale)}
+      data-convert={tr(UI.docConvert, locale)}
     >
       <form class="doc-form tool-form">
         <div class="dropzone" data-dropzone>
@@ -85,11 +89,26 @@ const body = content ? (locale === 'en' && content.body.en ? content.body.en : c
       <div class="tool-status" data-status></div>
 
       <div class="doc-output" data-output-wrap hidden>
-        <label class="field__label" for="doc-md-output">{tr(UI.docOutputLabel, locale)}</label>
-        <textarea id="doc-md-output" data-md-output rows="14" spellcheck="false" readonly></textarea>
+        <div class="doc-output__bar">
+          <div class="doc-tabs" role="tablist">
+            <button type="button" class="doc-tab is-active" data-tab="markdown" role="tab">{tr(UI.docTabMarkdown, locale)}</button>
+            <button type="button" class="doc-tab" data-tab="preview" role="tab">{tr(UI.docTabPreview, locale)}</button>
+          </div>
+          <span class="doc-count" data-count aria-live="polite"></span>
+        </div>
+
+        <div class="doc-panel" data-panel="markdown">
+          <label class="sr-only" for="doc-md-output">{tr(UI.docOutputLabel, locale)}</label>
+          <textarea id="doc-md-output" data-md-output rows="16" spellcheck="false"></textarea>
+        </div>
+        <div class="doc-panel" data-panel="preview" hidden>
+          <div class="prose doc-preview" data-md-preview></div>
+        </div>
+
         <div class="tool-actions">
           <button type="button" class="btn btn--accent" data-action="copy">{tr(UI.docCopy, locale)}</button>
           <button type="button" class="btn btn--secondary" data-action="download">{tr(UI.docDownload, locale)}</button>
+          <button type="button" class="btn btn--ghost" data-action="clear">{tr(UI.docClear, locale)}</button>
         </div>
       </div>
     </div>
