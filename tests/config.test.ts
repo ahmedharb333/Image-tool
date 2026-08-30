@@ -2,9 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { TOOLS } from '../src/config/tools.ts';
 
-test('config: registry contains exactly the four P1 tools', () => {
+test('config: registry contains the expected tools', () => {
   const slugs = TOOLS.map((t) => t.slug).sort();
-  assert.deepEqual(slugs, ['compress-image', 'convert-image', 'crop-image', 'resize-image']);
+  assert.deepEqual(slugs, [
+    'compress-image',
+    'convert-image',
+    'crop-image',
+    'document-to-markdown',
+    'resize-image',
+  ]);
 });
 
 test('config: slugs and ids are unique', () => {
