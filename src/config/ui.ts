@@ -112,6 +112,7 @@ export const UI = {
   crumbHome: { ar: 'الرئيسية', en: 'Home' },
   crumbTools: { ar: 'الأدوات', en: 'Tools' },
   dropTitle: { ar: 'اسحب صورة هنا أو اضغط للاختيار', en: 'Drag an image here or click to choose' },
+  dropHere: { ar: 'أفلت الصورة هنا', en: 'Drop the image here' },
   outputFormat: { ar: 'الصيغة الناتجة', en: 'Output format' },
   optWebp: { ar: 'WebP (موصى به)', en: 'WebP (recommended)' },
   optJpg: { ar: 'JPG', en: 'JPG' },

@@ -59,7 +59,7 @@ const toolBody = toolContent
       <p>{description}</p>
     </header>
 
-    <div class="tool-card" data-tool={slug}>
+    <div class="tool-card" data-tool={slug} data-drop-active={tr(UI.dropHere, locale)}>
       <form class="tool-form">
         <div class="dropzone" data-dropzone>
           <label class="dropzone__label" for={fileId}>

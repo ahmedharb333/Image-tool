@@ -36,7 +36,7 @@ const toolIcon: Record<string, string> = {
 
   <section class="section container">
     <h2 class="section__title">{tr(UI.sectionTools, locale)}</h2>
-    <div class="card-grid">
+    <div class="card-grid card-grid--wide">
       {
         activeTools.map((tool) => (
           <a class="card tool-card-link" href={localizedPath(locale, `/tools/${tool.slug}/`)}>
@@ -63,7 +63,7 @@ const toolIcon: Record<string, string> = {
 
   <section class="section container">
     <h2 class="section__title">{tr(UI.sectionGuides, locale)}</h2>
-    <div class="card-grid">
+    <div class="card-grid card-grid--wide">
       {
         GUIDES.map((g) => (
           <a class="card tool-card-link" href={localizedPath(locale, `/guides/${g.slug}/`)}>

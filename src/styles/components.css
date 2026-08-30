@@ -736,3 +736,9 @@
   background: var(--color-bg);
 }
 .doc-preview > :first-child { margin-top: 0; }
+
+/* ---- Wide grid: fit up to 5 cards on one row (responsive) ---- */
+.card-grid--wide {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-4);
+}

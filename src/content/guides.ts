@@ -317,4 +317,75 @@ export const GUIDES: GuideEntry[] = [
     related: ['resize-image', 'convert-image'],
     lastUpdated: '2026-08-29',
   },
+  {
+    slug: 'document-to-markdown',
+    title: {
+      ar: 'كيف تحوّل المستندات إلى Markdown',
+      en: 'How to convert documents to Markdown',
+    },
+    description: {
+      ar: 'دليل عملي لتحويل ملفات Word وHTML وPDF إلى صيغة Markdown نظيفة داخل متصفحك، مع نصائح لأفضل نتيجة.',
+      en: 'A practical guide to turning Word, HTML and PDF files into clean Markdown inside your browser, with tips for the best result.',
+    },
+    body: {
+      ar: [
+        'صيغة Markdown أصبحت اللغة الأساسية للكتابة على الويب: تستخدمها منصات التوثيق، ومولّدات المواقع الثابتة، ومحررات الملاحظات، ومنصات مثل GitHub. تحويل مستنداتك القديمة (Word أو HTML أو PDF) إلى Markdown يجعلها أخفّ وأسهل في التحرير والنشر وإدارة الإصدارات.',
+        '## ما هي صيغة Markdown ولماذا تحوّل إليها؟',
+        'Markdown صيغة نصية بسيطة تستخدم رموزًا خفيفة للتنسيق: <code>#</code> للعناوين، و<code>-</code> للقوائم، والنجوم للخط العريض والمائل. الملف الناتج نص عادي يمكن فتحه في أي محرر، ولا يعتمد على برنامج معيّن، ويعمل بسلاسة مع أنظمة التحكم في الإصدارات مثل Git.',
+        '## الصيغ المدعومة وأيها الأفضل',
+        '<strong>Word (DOCX)</strong> هو المصدر الأفضل، لأنه يحمل بنية واضحة: عناوين وقوائم وخط عريض وروابط، فتُترجم مباشرةً إلى Markdown دقيق. <strong>HTML</strong> يُحوَّل أيضًا بنظافة إلى Markdown. أما <strong>PDF</strong> فهو الأصعب لأنه صُمّم للطباعة لا للبنية، فلا يحمل معلومات العناوين، وتكون النتيجة نصًا خامًا يحتاج مراجعة. <strong>RTF وTXT</strong> نصوص بسيطة تُنقل كما هي.',
+        '## كيف تجري التحويل',
+        'ارفع مستندك في أداة تحويل المستندات إلى Markdown، واضغط زر التحويل. يظهر الناتج في محرر يمكنك تعديله مباشرةً، مع معاينة حيّة ترى فيها الشكل النهائي. انسخ الناتج أو نزّله كملف <code>.md</code> جاهز للاستخدام. كل ذلك يتم داخل متصفحك دون رفع الملف إلى أي خادم.',
+        '## نصائح لأفضل نتيجة',
+        'استخدم Word بدل PDF متى أمكن للحفاظ على بنية العناوين. راجع الجداول والقوائم المعقدة بعد التحويل، فقد تحتاج تعديلًا يدويًا. وإن كان مصدرك صفحة ويب، فالتحويل من HTML أنظف من نسخ النص ولصقه. بعد التحويل، استخدم المعاينة للتأكد من أن العناوين والروابط ظهرت كما تريد.',
+        '## الخصوصية',
+        'تحويل المستندات إلى Markdown في هذا الموقع يتم بالكامل داخل متصفحك عبر جافاسكربت؛ لا يُرفع ملفك ولا يُخزَّن. هذا يجعله مناسبًا للمستندات الحساسة التي لا تريد رفعها إلى خدمات خارجية.',
+      ],
+      en: [
+        'Markdown has become the default language for writing on the web: documentation platforms, static-site generators, note editors, and platforms like GitHub all use it. Converting your older documents (Word, HTML or PDF) to Markdown makes them lighter and easier to edit, publish and version-control.',
+        '## What is Markdown, and why convert to it?',
+        'Markdown is a simple text format that uses light symbols for formatting: <code>#</code> for headings, <code>-</code> for lists, and asterisks for bold and italics. The resulting file is plain text you can open in any editor, it does not depend on a particular program, and it works smoothly with version-control systems like Git.',
+        '## Supported formats and which is best',
+        '<strong>Word (DOCX)</strong> is the best source, because it carries a clear structure: headings, lists, bold and links, which translate directly into accurate Markdown. <strong>HTML</strong> also converts cleanly to Markdown. <strong>PDF</strong> is the hardest, since it was designed for printing rather than structure — it carries no heading information, so the result is raw text that needs review. <strong>RTF and TXT</strong> are simple text carried across as-is.',
+        '## How to run the conversion',
+        'Upload your document into the document → Markdown tool and press convert. The result appears in an editor you can adjust directly, with a live preview that shows the final look. Copy the output or download it as a <code>.md</code> file, ready to use. All of it happens inside your browser without uploading the file to any server.',
+        '## Tips for the best result',
+        'Use Word rather than PDF when you can, to preserve the heading structure. Review complex tables and lists after converting, as they may need a manual touch. If your source is a web page, converting from HTML is cleaner than copying and pasting the text. After converting, use the preview to confirm that headings and links came out the way you want.',
+        '## Privacy',
+        'Converting documents to Markdown on this site happens entirely inside your browser with JavaScript; your file is never uploaded or stored. That makes it suitable for sensitive documents you would rather not upload to external services.',
+      ],
+    },
+    faq: [
+      {
+        q: { ar: 'هل يُرفع مستندي إلى خادم؟', en: 'Is my document uploaded to a server?' },
+        a: {
+          ar: 'لا. يتم التحويل بالكامل داخل متصفحك، ولا يُرسل ملفك إلى أي خادم في أي مرحلة.',
+          en: 'No. The conversion happens entirely inside your browser, and your file is never sent to any server at any stage.',
+        },
+      },
+      {
+        q: { ar: 'ما أفضل صيغة مصدر للحصول على Markdown نظيف؟', en: 'Which source format gives the cleanest Markdown?' },
+        a: {
+          ar: 'مستند Word (DOCX)، لأنه يحمل بنية العناوين والقوائم والروابط التي تُترجم مباشرةً إلى Markdown دقيق.',
+          en: 'A Word document (DOCX), because it carries the heading, list and link structure that translates directly into accurate Markdown.',
+        },
+      },
+      {
+        q: { ar: 'لماذا نتيجة ملف PDF أقل دقة؟', en: 'Why is the PDF result less accurate?' },
+        a: {
+          ar: 'لأن PDF صُمّم للطباعة لا للبنية، فلا يحمل معلومات العناوين. يُستخرج النص بأفضل جهد وقد يحتاج مراجعة يدوية.',
+          en: 'Because PDF is designed for printing, not structure, so it carries no heading information. Text is extracted on a best-effort basis and may need manual review.',
+        },
+      },
+      {
+        q: { ar: 'هل يمكنني تعديل الناتج قبل التنزيل؟', en: 'Can I edit the result before downloading?' },
+        a: {
+          ar: 'نعم. الناتج يظهر في محرر قابل للتعديل مع معاينة حيّة، ويمكنك ضبطه ثم نسخه أو تنزيله كملف .md.',
+          en: 'Yes. The result appears in an editable editor with a live preview; you can adjust it, then copy it or download it as a .md file.',
+        },
+      },
+    ],
+    related: [],
+    lastUpdated: '2026-08-30',
+  },
 ];

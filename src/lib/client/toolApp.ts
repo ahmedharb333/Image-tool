@@ -113,12 +113,41 @@ export function toolApp(root: HTMLElement, handlers: ToolHandlers): ToolApp {
     root.querySelectorAll<HTMLElement>('[data-action="reset"]').forEach((el) =>
       el.addEventListener('click', () => reset()),
     );
-    // Confirm the selected file in the dropzone so the user sees it registered.
-    uploadInput?.addEventListener('change', () => {
-      const f = uploadInput.files && uploadInput.files[0];
-      const titleEl = root.querySelector<HTMLElement>('.dropzone__title');
+    const titleEl = root.querySelector<HTMLElement>('.dropzone__title');
+    const titleDefault = titleEl?.textContent ?? '';
+    const dropActive = root.dataset.dropActive ?? '';
+    const showFile = () => {
+      const f = uploadInput?.files && uploadInput.files[0];
       if (f && titleEl) titleEl.textContent = `✓ ${f.name}`;
-    });
+    };
+    // Confirm the selected file in the dropzone so the user sees it registered.
+    uploadInput?.addEventListener('change', showFile);
+
+    // Drag & drop onto the dropzone (visual highlight + load the file).
+    const dropzone = root.querySelector<HTMLElement>('[data-dropzone]');
+    if (dropzone && uploadInput) {
+      const setActive = (on: boolean) => {
+        dropzone.classList.toggle('is-dragover', on);
+        if (titleEl) {
+          titleEl.textContent = on && dropActive
+            ? dropActive
+            : (uploadInput.files && uploadInput.files[0] ? `✓ ${uploadInput.files[0].name}` : titleDefault);
+        }
+      };
+      ['dragenter', 'dragover'].forEach((ev) =>
+        dropzone.addEventListener(ev, (e) => { e.preventDefault(); setActive(true); }));
+      ['dragleave', 'dragend'].forEach((ev) =>
+        dropzone.addEventListener(ev, (e) => { e.preventDefault(); setActive(false); }));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        setActive(false);
+        const dt = (e as DragEvent).dataTransfer;
+        if (dt && dt.files.length) {
+          uploadInput.files = dt.files;
+          showFile();
+        }
+      });
+    }
   }
 
   function destroy() {
