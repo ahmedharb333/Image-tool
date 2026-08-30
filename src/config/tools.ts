@@ -6,7 +6,7 @@
 
 import type { L10n } from '../lib/i18n';
 
-export type ToolCategory = 'compress' | 'resize' | 'convert' | 'crop';
+export type ToolCategory = 'compress' | 'resize' | 'convert' | 'crop' | 'document';
 
 export interface ToolEntry {
   /** Stable machine id (used in analytics events later). */
@@ -70,6 +70,20 @@ export const TOOLS: ToolEntry[] = [
     description: { ar: 'اقصّ الصورة بحرية أو بنسب ثابتة مثل 1:1 و16:9 مع التدوير قبل القص.', en: 'Crop freely or to fixed ratios like 1:1 and 16:9, with rotation before cropping.' },
     formats: ['jpg', 'jpeg', 'png', 'webp'],
     related: ['resize-image', 'convert-image'],
+    guide: '',
+    active: true,
+  },
+  {
+    id: 'document-to-markdown',
+    slug: 'document-to-markdown',
+    category: 'document',
+    title: { ar: 'تحويل المستندات إلى Markdown', en: 'Documents to Markdown' },
+    description: {
+      ar: 'حوّل مستندات Word وHTML وRTF وTXT وPDF إلى صيغة Markdown داخل متصفحك دون رفعها.',
+      en: 'Convert Word, HTML, RTF, TXT and PDF documents to Markdown inside your browser, no upload.',
+    },
+    formats: ['docx', 'doc', 'html', 'htm', 'rtf', 'txt', 'md', 'pdf'],
+    related: [],
     guide: '',
     active: true,
   },

@@ -70,6 +70,22 @@ export const UI = {
   guideFaqHeading: { ar: 'أسئلة شائعة', en: 'Frequently asked questions' },
   tryTheTool: { ar: 'جرّب الأداة', en: 'Try the tool' },
 
+  // Document -> Markdown tool
+  docDropTitle: { ar: 'اسحب مستندًا هنا أو اضغط للاختيار', en: 'Drag a document here or click to choose' },
+  docDropHint: { ar: 'DOCX أو HTML أو RTF أو TXT أو MD أو PDF', en: 'DOCX, HTML, RTF, TXT, MD or PDF' },
+  docConvert: { ar: 'حوّل إلى Markdown', en: 'Convert to Markdown' },
+  docOutputLabel: { ar: 'الناتج (Markdown)', en: 'Result (Markdown)' },
+  docCopy: { ar: 'نسخ', en: 'Copy' },
+  docCopied: { ar: 'تم النسخ ✓', en: 'Copied ✓' },
+  docDownload: { ar: 'تحميل .md', en: 'Download .md' },
+  docWorking: { ar: 'جارٍ التحويل…', en: 'Converting…' },
+  docDone: { ar: 'تم التحويل بنجاح.', en: 'Converted successfully.' },
+  docErrNoFile: { ar: 'اختر ملفًا أولاً.', en: 'Choose a file first.' },
+  docErrUnsupported: { ar: 'صيغة غير مدعومة. المدعوم: DOCX وHTML وRTF وTXT وMD وPDF.', en: 'Unsupported format. Supported: DOCX, HTML, RTF, TXT, MD and PDF.' },
+  docErrFail: { ar: 'تعذّر تحويل الملف.', en: 'Could not convert the file.' },
+  docNotePdf: { ar: 'قد تختلف النتائج مع ملفات PDF لأنها لا تحمل بنية نصية واضحة.', en: 'Results may vary for PDFs, since they carry no clear text structure.' },
+  docNoteRtf: { ar: 'تحويل مبسّط لملفات RTF.', en: 'Basic conversion for RTF files.' },
+
   // Contact
   contactTitle: { ar: 'تواصل معنا', en: 'Contact us' },
   contactMetaDesc: { ar: 'تواصل مع فريق أدوات الصور.', en: 'Get in touch with the Image Tools team.' },

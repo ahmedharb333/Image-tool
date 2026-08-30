@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from './AdSlot.astro';
+import { TOOLS } from '../config/tools';
+import { UI } from '../config/ui';
+import { type Locale } from '../config/site';
+import { localizedPath, tr } from '../lib/i18n';
+import { webApplicationJsonLd, breadcrumbJsonLd } from '../lib/seo';
+import { TOOL_CONTENT } from '../content/tool-content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const slug = 'document-to-markdown';
+const tool = TOOLS.find((t) => t.slug === slug)!;
+const title = tr(tool.title, locale);
+const description = tr(tool.description, locale);
+const path = localizedPath(locale, `/tools/${slug}/`);
+
+const crumbs = [
+  { name: tr(UI.crumbHome, locale), path: localizedPath(locale, '/') },
+  { name: tr(UI.crumbTools, locale), path: localizedPath(locale, '/tools/') },
+  { name: title, path },
+];
+const schema = [
+  webApplicationJsonLd({ title, description, path }),
+  breadcrumbJsonLd(crumbs),
+];
+
+const content = TOOL_CONTENT[slug];
+const body = content ? (locale === 'en' && content.body.en ? content.body.en : content.body.ar) : [];
+---
+
+<BaseLayout title={title} description={description} path={path} schemaJsonLd={schema} locale={locale}>
+  <div class="container">
+    <nav aria-label={tr(UI.breadcrumbAria, locale)}>
+      <ol class="breadcrumbs">
+        {crumbs.map((crumb, index) => (
+          <li>
+            {index === crumbs.length - 1
+              ? <span aria-current="page">{crumb.name}</span>
+              : <a href={crumb.path}>{crumb.name}</a>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <header class="tool-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+
+    <div
+      class="tool-card"
+      data-doc-tool
+      data-err-no-file={tr(UI.docErrNoFile, locale)}
+      data-err-unsupported={tr(UI.docErrUnsupported, locale)}
+      data-err-fail={tr(UI.docErrFail, locale)}
+      data-working={tr(UI.docWorking, locale)}
+      data-done={tr(UI.docDone, locale)}
+      data-note-pdf={tr(UI.docNotePdf, locale)}
+      data-note-rtf={tr(UI.docNoteRtf, locale)}
+      data-copy={tr(UI.docCopy, locale)}
+      data-copied={tr(UI.docCopied, locale)}
+    >
+      <form class="doc-form tool-form">
+        <div class="dropzone" data-dropzone>
+          <label class="dropzone__label" for="doc-file">
+            <input type="file" id="doc-file" name="file"
+              accept=".docx,.doc,.html,.htm,.rtf,.txt,.md,.markdown,.pdf,application/pdf,text/html,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              data-upload-input required />
+            <span class="dropzone__title">{tr(UI.docDropTitle, locale)}</span>
+            <span class="dropzone__hint">{tr(UI.docDropHint, locale)}</span>
+          </label>
+        </div>
+
+        <div class="tool-actions">
+          <button type="submit" class="btn btn--primary" data-action="process">{tr(UI.docConvert, locale)}</button>
+        </div>
+      </form>
+
+      <div data-alerts hidden></div>
+      <div class="tool-status" data-status></div>
+
+      <div class="doc-output" data-output-wrap hidden>
+        <label class="field__label" for="doc-md-output">{tr(UI.docOutputLabel, locale)}</label>
+        <textarea id="doc-md-output" data-md-output rows="14" spellcheck="false" readonly></textarea>
+        <div class="tool-actions">
+          <button type="button" class="btn btn--accent" data-action="copy">{tr(UI.docCopy, locale)}</button>
+          <button type="button" class="btn btn--secondary" data-action="download">{tr(UI.docDownload, locale)}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-ads">
+      <AdSlot location="afterResult" />
+    </div>
+
+    {body.length > 0 && (
+      <article class="legal-prose tool-article">
+        {body.map((para) => (
+          para.startsWith('## ')
+            ? <h2>{para.slice(3)}</h2>
+            : <p set:html={para} />
+        ))}
+      </article>
+    )}
+  </div>
+
+  <script>
+    import { initDocTool } from '../lib/client/documentTool';
+    const root = document.querySelector<HTMLElement>('[data-doc-tool]');
+    if (root) initDocTool(root);
+  </script>
+</BaseLayout>

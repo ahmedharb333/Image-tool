@@ -75,6 +75,30 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       ],
     },
   },
+  'document-to-markdown': {
+    body: {
+      ar: [
+        '## كيف تستخدم أداة تحويل المستندات إلى Markdown',
+        'ارفع مستندًا من جهازك (Word أو HTML أو RTF أو TXT أو PDF)، ثم اضغط "حوّل إلى Markdown". يظهر الناتج في صندوق نصي يمكنك نسخه بالكامل أو تنزيله كملف <code>.md</code> جاهز للاستخدام في محررات Markdown ومولّدات المواقع الثابتة.',
+        '## الصيغ المدعومة',
+        '<strong>DOCX (Word):</strong> يُحوَّل إلى Markdown مع الحفاظ على العناوين والقوائم والخط العريض والمائل والروابط. <strong>HTML:</strong> يُنظَّف ويُحوَّل إلى Markdown نظيف. <strong>RTF وTXT وMD:</strong> نص عادي أو منسّق بسيط. <strong>PDF:</strong> يُستخرج النص بأفضل جهد ممكن — قد تختلف النتائج لأن ملفات PDF لا تحمل بنية عناوين واضحة.',
+        '## الخصوصية',
+        'كل التحويل يتم بالكامل داخل متصفحك عبر جافاسكربت؛ لا يُرفع مستندك إلى أي خادم ولا يُخزَّن في أي مكان. هذا مفيد بشكل خاص للمستندات الحساسة التي لا ترغب في رفعها إلى أدوات على الإنترنت.',
+        '## نصائح',
+        'راجع الناتج بعد التحويل، خاصةً للجداول المعقدة أو ملفات PDF، وعدّل ما يلزم قبل الاستخدام. للحصول على أفضل نتيجة، استخدم مستند Word (DOCX) بدل PDF متى أمكن، لأنه يحتفظ ببنية العناوين والقوائم.',
+      ],
+      en: [
+        '## How to use the document → Markdown tool',
+        'Upload a document from your device (Word, HTML, RTF, TXT or PDF), then press "Convert to Markdown". The result appears in a text box you can copy in full or download as a <code>.md</code> file, ready for Markdown editors and static-site generators.',
+        '## Supported formats',
+        '<strong>DOCX (Word):</strong> converted to Markdown while preserving headings, lists, bold, italics and links. <strong>HTML:</strong> cleaned and turned into tidy Markdown. <strong>RTF, TXT and MD:</strong> plain or lightly formatted text. <strong>PDF:</strong> text is extracted on a best-effort basis — results may vary, since PDFs carry no clear heading structure.',
+        '## Privacy',
+        'The whole conversion runs entirely inside your browser with JavaScript; your document is never uploaded to any server or stored anywhere. This is especially useful for sensitive documents you would rather not upload to online tools.',
+        '## Tips',
+        'Review the output after converting, especially for complex tables or PDFs, and tidy anything that needs it before using it. For the best result, use a Word document (DOCX) rather than a PDF when you can, because it keeps the heading and list structure.',
+      ],
+    },
+  },
   'crop-image': {
     body: {
       ar: [
