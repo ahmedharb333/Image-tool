@@ -12,11 +12,11 @@ export const SITE = {
   /** Live domain. */
   url: 'https://tools.worldly.pro',
   /** Brand name (display). */
-  brandName: { ar: 'أدوات الصور', en: 'Image Tools' },
+  brandName: { ar: 'أدوات وردلي', en: 'Worldly Tools' },
   /** Short brand tagline. */
   tagline: {
-    ar: 'أدوات معالجة الصور داخل متصفحك',
-    en: 'Image tools that run inside your browser',
+    ar: 'أدوات مجانية داخل متصفحك — للصور والمستندات وأكثر، دون رفع أي ملف',
+    en: 'Free in-browser tools — images, documents and more, with no uploads',
   },
   /** Owner / editorial placeholder. Kept empty until real info is provided. */
   owner: {
@@ -35,17 +35,17 @@ export const SITE = {
   contact: {
     useMailto: true,
     mailtoSubject: {
-      ar: 'رسالة من موقع أدوات الصور',
-      en: 'Message from Image Tools',
+      ar: 'رسالة من موقع أدوات وردلي',
+      en: 'Message from Worldly Tools',
     },
   },
 } as const;
 
 export const LOGO = {
   /** Rendered as text (no image assets). */
-  text: { ar: 'أدوات الصور', en: 'Image Tools' },
+  text: { ar: 'أدوات وردلي', en: 'Worldly Tools' },
   /** Arabic-English combined lockup used in footer. */
-  lockup: { ar: 'أدوات الصور — Image Tools', en: 'Image Tools — أدوات الصور' },
+  lockup: { ar: 'أدوات وردلي — Worldly Tools', en: 'Worldly Tools — أدوات وردلي' },
 } as const;
 
 export const THEME = {

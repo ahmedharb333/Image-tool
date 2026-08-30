@@ -31,20 +31,20 @@ const publisherFootnote: L10n = { ar: 'الناشر: سيُحدَّث اسم ا�
 export const PAGES: StaticPageEntry[] = [
   {
     slug: 'about',
-    title: { ar: 'عن أدوات الصور', en: 'About Image Tools' },
+    title: { ar: 'عن أدوات وردلي', en: 'About Worldly Tools' },
     metaDesc: {
-      ar: 'أدوات معالجة الصور داخل متصفحك',
-      en: 'Image tools that run inside your browser',
+      ar: 'أدوات مجانية للصور والمستندات داخل متصفحك',
+      en: 'Free image and document tools that run inside your browser',
     },
     subtitle: {
-      ar: 'أدوات معالجة الصور داخل متصفحك',
-      en: 'Image tools that run inside your browser',
+      ar: 'أدوات مجانية للصور والمستندات داخل متصفحك',
+      en: 'Free image and document tools that run inside your browser',
     },
     sections: [
       {
         html: {
-          ar: '<p>أدوات الصور موقع يقدم أدوات معالجة صور تعمل بالكامل داخل متصفحك. نهدف إلى أدوات سريعة ومجانية تعالج ملفاتك محليًا دون رفعها إلى أي خادم.</p><p>جميع المعالجة تتم عبر واجهات Canvas في متصفحك، ولا نُرسل أو نخزن أيًا من ملفاتك.</p>',
-          en: '<p>Image Tools is a site that offers image-processing tools which run entirely inside your browser. We aim for fast, free tools that process your files locally without uploading them to any server.</p><p>All processing happens through the Canvas APIs in your browser, and we never send or store any of your files.</p>',
+          ar: '<p>أدوات وردلي موقع يقدم أدوات مجانية للصور والمستندات تعمل بالكامل داخل متصفحك — من ضغط الصور وتغيير حجمها وتحويلها واقتصاصها، إلى تحويل المستندات إلى صيغة Markdown. نهدف إلى أدوات سريعة تعالج ملفاتك محليًا دون رفعها إلى أي خادم.</p><p>تتم المعالجة بالكامل داخل متصفحك، ولا نُرسل أو نخزن أيًا من ملفاتك.</p>',
+          en: '<p>Worldly Tools is a site that offers free image and document tools which run entirely inside your browser — from compressing, resizing, converting and cropping images, to turning documents into Markdown. We aim for fast tools that process your files locally without uploading them to any server.</p><p>All processing happens inside your browser, and we never send or store any of your files.</p>',
         },
       },
       {
