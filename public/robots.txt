@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://image-tools.example.com/sitemap-index.xml
+Sitemap: https://tools.worldly.pro/sitemap-index.xml
