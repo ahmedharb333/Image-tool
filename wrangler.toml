@@ -1,0 +1,16 @@
+# Cloudflare Workers config for the image-tools static site.
+#
+# This is a static-assets Worker (no server script): Astro builds to ./dist and
+# Cloudflare serves it directly. Without this file, `npx wrangler deploy` (the
+# dashboard's deploy command) can't tell the worker name or the assets directory
+# and fails at the Deploy step — which silently broke auto-deploy for ~a month.
+#
+# wrangler is pinned as a devDependency so the build uses a known version
+# instead of whatever `npx` resolves to latest.
+name = "image-tools"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "./dist"
+# Astro emits dist/404.html (from src/pages/404.astro); serve it on misses.
+not_found_handling = "404-page"
